@@ -1,0 +1,37 @@
+.game-page{
+  background-color: green;
+  justify-content: center;
+  align-items: center;
+}
+.player{
+  background-color: rgb(188, 184, 184);
+  margin: 20px;
+}
+ .player-columns{
+   display:inline-block;
+ }
+
+
+button{
+  background-color: blue;
+  font-weight: bold;
+  font-size: 15px;
+  color: white;
+  margin: 10px;
+  border: 2px solid black;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.playerName{
+  font-size: 20px;
+  font-weight: bold;}
+
+  .someData{
+    font-size: 20px;
+    font-weight: bold;
+    color: antiquewhite;
+    margin: 10px;
+    background-color: black;
+    
+  }
