@@ -1,0 +1,14 @@
+
+
+
+-- make home page to choose how many players play each game,
++input for player names(later add login manager to know players(manage with data base)).
+
+--make 
+
+
+decided to work with the server
+
+need to move logic to the server
+manage remove player
+manage page moving

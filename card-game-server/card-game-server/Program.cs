@@ -1,13 +1,15 @@
 using card_game_server.Data;
 using card_game_server.Logic;
+using card_game_server.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<CardsData>();
-builder.Services.AddSingleton<CardsLogic>();
+builder.Services.AddSingleton<SimpleData>();
+builder.Services.AddSingleton<IDeckLogic,DeckLogic>();
+builder.Services.AddSingleton<IPlayersLogic,PlayersLogic>();
 
 builder.Services.AddCors(options =>
 {

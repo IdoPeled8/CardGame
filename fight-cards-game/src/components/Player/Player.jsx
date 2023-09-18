@@ -13,20 +13,21 @@ const Player = ({ player, handleAttack, handleChangeGuard }) => {
   return (
     <div className={player.isDead ? 'dead player' : 'alive player'}>
       <div className='playerName'>{player.name}</div>
+      {player.hand?.guard === undefined && <h4>Waiting Player</h4>}
       <div className='playerHand'>
         <ul>
           <li>
             <strong>Guard:</strong>
             <br />
-            {player.hand.guard?.shape} | {player.hand.guard?.value}
+            {player.hand?.guard.shape} | {player.hand?.guard.value}
           </li>
           <br />
           <li>
             <strong>Health:</strong>
             <br />
-            {player.hand.heart1.shape} | {player.hand.heart1.value}
+            {player.hand?.heart1.shape} | {player.hand?.heart1.value}
             <br />
-            {player.hand.heart2.shape} | {player.hand.heart2.value}
+            {player.hand?.heart2.shape} | {player.hand?.heart2.value}
           </li>
         </ul>
         {!player.isDead && (

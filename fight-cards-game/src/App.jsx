@@ -1,14 +1,16 @@
 import './App.css'
-import GamePage from './pages/GamePage'
 import { DeckProvider } from './Contexts/DeckContext'
+import GamePage from './pages/GamePage'
+import HomePage from './pages/HomePage'
 
 function App() {
 
   return (
     <DeckProvider>
-    <div>
-     <GamePage/>
-    </div>
+      <div>
+        <HomePage />
+        <GamePage />
+      </div>
     </DeckProvider>
   )
 }

@@ -2,6 +2,7 @@
 using card_game_server.Logic;
 using card_game_server.Models;
 using card_game_server.Models.DTO_Models;
+using card_game_server.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -12,54 +13,71 @@ namespace card_game_server.Controllers
     public class CardsGame : ControllerBase
     {
 
-        private readonly CardsData _cardsData;
-        private readonly CardsLogic _cardsLogic;
+        private readonly IDeckLogic _deckLogic;
+        private readonly IPlayersLogic _playersLogic;
 
-        public CardsGame(CardsData cardsData, CardsLogic cardsLogic)
+        public CardsGame(IDeckLogic deckLogic,IPlayersLogic playersLogic)
         {
-            _cardsData = cardsData;
-            _cardsLogic = cardsLogic;
+            _deckLogic = deckLogic;
+            _playersLogic = playersLogic;
         }
 
         // GET: api/<CardsGame>
         [HttpGet]
-        public Tuple<List<Player>,List<Card>> StartGame()
+        public Tuple<List<Player>, List<Card>> StartGame()
         {
-            //add somthing to server from vs code (check)
-            _cardsData.Players.Clear();
-            _cardsData.CreateNewDeck();
+            _playersLogic.RemovePlayersHand();
+            _deckLogic.CreateNewDeck();
 
-            _cardsLogic.ShuffleDeck();
-            _cardsLogic.CreatePlayer("player1");
-            _cardsLogic.CreatePlayer("player2");
-            _cardsLogic.CreatePlayer("player3");
-            _cardsLogic.CreatePlayer("player4");
-            _cardsLogic.DealCards();
+            var deck = _deckLogic.ShuffleDeck();
+            //_playersLogic.CreatePlayer("player1");
+            //_playersLogic.CreatePlayer("player2");
+            //_playersLogic.CreatePlayer("player3");
+            //_playersLogic.CreatePlayer("player4");
+            var players = _playersLogic.DealCards();
 
-            var gameData = new Tuple<List<Player>, List<Card>>(_cardsData.Players, _cardsData.Deck);
+            var gameData = new Tuple<List<Player>, List<Card>>(players, deck);
 
             return gameData;
 
             //make put api for making player
-        }
+
+        } //if the code is testble this means hes good
 
         [HttpGet]
         public List<Card> ShuffleDeck()
         {
             //this is ok for now but in real i need to check what is the currect cards of the players and shuffle deck without this cards
             //maybe just move this to the client to?
-            _cardsData.CreateNewDeck();
-            _cardsLogic.ShuffleDeck();
+            _deckLogic.CreateNewDeck();
+            var deck = _deckLogic.ShuffleDeck();
 
-            return _cardsData.Deck;
+            return deck;
 
         }
 
         [HttpGet]
         public Card TakeCard()
         {
-            return _cardsLogic.TakeCardFromDeck();
+            return _deckLogic.TakeCardFromDeck();
         }
+
+        [HttpPost]
+        public IActionResult CreateNewPlayer(string name)
+        {
+            Console.WriteLine(name);
+            try
+            {
+                var newPlayer = _playersLogic.CreatePlayer(name);
+                return Ok(newPlayer);
+            }
+            catch (Exception)
+            {
+                return BadRequest("somthing went wrong when creating new player");
+            }
+
+        }
+        //add delete players
 
         //// GET api/<CardsGame>/5
         //[HttpGet("{id}")]

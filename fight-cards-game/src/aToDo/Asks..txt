@@ -1,0 +1,6 @@
+
+
+what should be on client and what on server
+
+what should manage in the context
+

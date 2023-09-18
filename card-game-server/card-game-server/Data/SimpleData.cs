@@ -2,13 +2,13 @@
 
 namespace card_game_server.Data
 {
-    public class CardsData
+    public class SimpleData
     {
         public List<Card> Deck;
         public List<Player> Players;
 
       
-        public CardsData()
+        public SimpleData()
         {
             Players = new List<Player>();
             CreateNewDeck();
