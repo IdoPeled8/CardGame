@@ -3,14 +3,10 @@
 A simple multiplayer card game built with React and a .NET Core server.
 
 ## Table of Contents
-
 - [Getting Started](#getting-started)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Usage](#usage)
 - [Game Rules](#game-rules)
 - [Contributing](#contributing)
-- [License](#license)
+
 
 ## Getting Started
 
