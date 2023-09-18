@@ -25,6 +25,7 @@ namespace card_game_server.Controllers
         [HttpGet]
         public Tuple<List<Player>,List<Card>> StartGame()
         {
+            //add somthing to server from vs code (check)
             _cardsData.Players.Clear();
             _cardsData.CreateNewDeck();
 

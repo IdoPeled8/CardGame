@@ -22,3 +22,5 @@ export const GetShuffleDeck = async() => {
   console.log(deck)
   return deck
 }
+
+
