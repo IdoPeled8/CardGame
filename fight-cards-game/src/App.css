@@ -3,25 +3,21 @@
   justify-content: center;
   align-items: center;
 }
+
 .player{
-  background-color: rgb(188, 184, 184);
   margin: 20px;
+}
+
+.alive{
+  background-color: rgb(188, 184, 184);
+}
+.dead{
+  background-color: brown;
 }
  .player-columns{
    display:inline-block;
  }
 
-
-button{
-  background-color: blue;
-  font-weight: bold;
-  font-size: 15px;
-  color: white;
-  margin: 10px;
-  border: 2px solid black;
-  border-radius: 10px;
-  cursor: pointer;
-}
 
 .playerName{
   font-size: 20px;

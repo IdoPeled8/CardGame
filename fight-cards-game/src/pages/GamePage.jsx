@@ -1,31 +1,38 @@
-import React, { useState } from 'react';
 import Player from '../components/Player/Player';
 import Package from '../components/Package';
-import { onAttack } from '../utils/PlayerMoves';
+import { onAttack, onChangeGuard } from '../utils/PlayerMoves';
 import { useDeckContext } from '../Contexts/DeckContext';
+import SimpleButton from '../components/ui/SimpleButton';
 
 
 
 const GamePage = () => {
 
-  const { players, currentCard, playerTurn, changeTurn, TakeCard, dealCardsServer } = useDeckContext();
+  const { players, currentCard, playerTurn, changeTurn, TakeCard, dealCardsServer, checkDeath } = useDeckContext();
 
-  const handleAttack = (enemyPlayer) => {
+  const handleAttack = async (enemyPlayer) => {
     if (enemyPlayer.id === playerTurn.id) {
       console.log("cant attack yourself")
     }
     else {
-      onAttack(enemyPlayer, playerTurn, currentCard)
+      const card = await TakeCard()
+      onAttack(enemyPlayer, card)
+      checkDeath()
       changeTurn()
     }
   }
+
+  const handleChangeGuard = async (playerToChange) => {
+    const card = await TakeCard()
+    onChangeGuard(playerToChange, card)
+    changeTurn()
+  }
+
   return (
 
     <div className="game-page">
-      <button onClick={dealCardsServer}>Deal Cards Server</button>
+      <SimpleButton onClick={dealCardsServer}>Deal Cards Server</SimpleButton>
       {/* show change turn button only if i deal cards */}
-      <button onClick={changeTurn}>change Turn</button>
-      <button onClick={TakeCard}>pick a card</button>
       <div className='someData'> Turn: {playerTurn.name}</div>
       <div className='someData'> Card: {currentCard.shape} {currentCard.value}
 
@@ -33,8 +40,8 @@ const GamePage = () => {
 
       <div className="player-columns">
         {players.map((player, index) => (
-          <div key={index}>
-            <Player data={player} handleAttack={handleAttack} />
+          <div  key={index}>
+            <Player player={player} handleAttack={handleAttack} handleChangeGuard={handleChangeGuard} />
           </div>
         ))}
       </div>

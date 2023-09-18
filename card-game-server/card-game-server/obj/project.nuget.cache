@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "SRgDyoKeyTj/4eTtSMx2N3dOV+n3Qe/i1THYqtS2y0hqa92v4Scub1m1azzf/Mx0/FTBOLMwawPqmCT9ZbAl/A==",
+  "dgSpecHash": "ogz+5Ksmmx9Qniudcsg/f6Uga9n5JQYLkxGgQEeCtJBMM+p08qZtya7Zg1NuQXPTfKWdtxQh6CKJRKAnW0/btQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\idop9\\OneDrive\\Desktop\\My Projects\\React-Card-Game\\card-game-server\\card-game-server\\card-game-server.csproj",
+  "projectFilePath": "C:\\Users\\idop9\\OneDrive\\Desktop\\My Projects\\React-Card-Game\\CardGame\\card-game-server\\card-game-server\\card-game-server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\idop9\\.nuget\\packages\\microsoft.aspnetcore.cors\\2.2.0\\microsoft.aspnetcore.cors.2.2.0.nupkg.sha512",
     "C:\\Users\\idop9\\.nuget\\packages\\microsoft.aspnetcore.http.abstractions\\2.2.0\\microsoft.aspnetcore.http.abstractions.2.2.0.nupkg.sha512",
