@@ -6,7 +6,10 @@ namespace card_game_server.Repositories
      {
         void RemoveExistingPlayers();
         void RemovePlayersHand();
+        void RemovePlayer(string id);
+        void RemoveAllPlayers();
         List<Player> DealCards();
         Player CreatePlayer(string name);
+        public Player FindPlayerById(string playerId);
     }
 }

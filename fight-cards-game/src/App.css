@@ -6,8 +6,13 @@
 
 .player{
   margin: 20px;
+  width: 250px;
+  height: 250px;
 }
-
+.card{
+  width: 40px;
+  height: 40px;
+}
 .alive{
   background-color: rgb(188, 184, 184);
 }
@@ -17,7 +22,6 @@
  .player-columns{
    display:flex;
  }
-
 
 .playerName{
   font-size: 20px;

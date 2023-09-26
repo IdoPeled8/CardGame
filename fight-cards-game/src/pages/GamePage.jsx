@@ -2,8 +2,15 @@ import Player from "../components/Player/Player";
 import Package from "../components/Package";
 import { onAttack, onChangeGuard } from "../utils/PlayerMoves";
 import { useDeckContext } from "../Contexts/DeckContext";
-import SimpleButton from "../components/ui/SimpleButton";
-import { postCreateNewPlayer } from "../Services/AxiosCalls";
+import SimpleButton from "../components/ui/Button/SimpleButton";
+import {
+  deleteRemoveAllPlayers,
+  postCreateNewPlayer,
+  putAttackPlayer,
+} from "../Services/AxiosCalls";
+import { colors } from "../utils/Colors";
+import SimpleLink from "../components/ui/Link/SimpleLink";
+import Card from "../components/Card";
 
 const GamePage = () => {
   const {
@@ -14,6 +21,8 @@ const GamePage = () => {
     TakeCard,
     dealCardsServer,
     checkDeath,
+    removeAllPlayers,
+    changePlayerData,
   } = useDeckContext();
 
   const handleAttack = async (enemyPlayer) => {
@@ -21,10 +30,14 @@ const GamePage = () => {
       console.log("cant attack yourself");
     } else {
       const card = await TakeCard();
-      onAttack(enemyPlayer, card);
-      checkDeath();
-      changeTurn();
+      const newPlayerData = await onAttack(enemyPlayer, card);
+      console.log(newPlayerData);
+      if (newPlayerData !== undefined) {
+        changePlayerData(newPlayerData);
+        checkDeath();
+      }
     }
+    changeTurn();
   };
 
   const handleChangeGuard = async (playerToChange) => {
@@ -33,21 +46,31 @@ const GamePage = () => {
     changeTurn();
   };
 
+  const onRemoveAllPlayers = () => {
+    removeAllPlayers();
+    window.navigator.reload();
+  };
+
   return (
     <div className="game-page">
+      {players.length >= 2 && (
+        <SimpleButton color={colors.white} onClick={dealCardsServer}>
+          Start new game
+        </SimpleButton>
+      )}
+      <SimpleLink to="/">back to home page</SimpleLink>
 
-     <SimpleButton onClick={dealCardsServer}>Start new game</SimpleButton>
-     <SimpleButton>Clear players(not working)</SimpleButton>
-     <SimpleButton>back to home page(not working)</SimpleButton>
-     <SimpleButton>Remove Player(not working)</SimpleButton>
+      <SimpleButton color={colors.red} onClick={onRemoveAllPlayers}>
+        Remove all Players
+      </SimpleButton>
+      {/* <SimpleButton color={colors.red} onClick={onRemovePlayer}>remove specific player(not working)</SimpleButton> */}
 
       <div className="someData"> Turn: {playerTurn.name}</div>
       <div className="someData">
         {" "}
-        Card: {currentCard.shape} {currentCard.value}
+        Card: <Card imageName={currentCard.imageName} />
       </div>
       <br />
-    
 
       <div className="player-columns">
         {players.map((player, index) => (

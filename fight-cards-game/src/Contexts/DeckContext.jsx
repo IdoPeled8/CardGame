@@ -3,9 +3,10 @@ import { whoStart } from "../utils/PlayersUtils";
 import {
   getStartGame,
   getTakeCard,
-  getShuffleDeck,
   postCreateNewPlayer,
+  deleteRemoveAllPlayers,
 } from "../Services/AxiosCalls";
+// import { useNavigate } from 'react-router-dom';
 
 const deckContext = createContext();
 
@@ -13,51 +14,27 @@ export function DeckProvider({ children }) {
   const [players, setPlayers] = useState([]);
   const [currentCard, setCurrentCard] = useState({});
   const [playerTurn, setPlayerTurn] = useState("");
-  const [deck, setDeck] = useState([]);
+
+  // const navigate = useNavigate();
 
   const onCreateNewPlayer = async (newPlayer) => {
-    console.log(newPlayer);
     await postCreateNewPlayer(newPlayer);
     setPlayers([...players, newPlayer]);
   };
   const dealCardsServer = async () => {
-    // setPlayers([]);
+    const playersData = await getStartGame();
 
-    const PlayersAndDeck = await getStartGame();
-    const newPlayers = PlayersAndDeck.item1;
-    const newDeck = PlayersAndDeck.item2;
-    console.log(PlayersAndDeck);
-    // setDeck(newDeck);
-
-    // //i think i can remove the prevplayers and than remove set players to empty and this will just ovveride the prev players
     setPlayers((prevPlayers) => {
-       const updatedPlayers = [ ...newPlayers];
-
-       setPlayerTurn(whoStart(updatedPlayers));
-
-       return updatedPlayers;
-     });
+      const updatedPlayers = [...playersData];
+      setPlayerTurn(whoStart(updatedPlayers));
+      return updatedPlayers;
+    });
   };
 
   const TakeCard = async () => {
-    if (deck.length === 1) {
-      const newDeck = await getShuffleDeck();
-      setDeck(newDeck);
-      console.log("deck shuffled");
-    }
-
     const card = await getTakeCard();
     setCurrentCard(card);
     return card;
-
-    // || manage deck in client (maybe security issue?)
-    // const newCard = deck[0]
-    // setCurrentCard(newCard)
-    // console.log(deck)
-    // deck.splice(0, 1)
-    // return newCard
-
-    // ||| manage take card from server (if i dont want that the clint will know the deck) |||
   };
 
   const changeTurn = () => {
@@ -69,8 +46,8 @@ export function DeckProvider({ children }) {
       newIndex = (newIndex + 1) % players.length;
       console.log("dead player");
     }
-
     setPlayerTurn(players[newIndex]);
+    //move to server?
   };
 
   const checkDeath = () => {
@@ -83,7 +60,26 @@ export function DeckProvider({ children }) {
       });
       return updatedPlayers;
     });
+    //move to server?
   };
+
+  const removeAllPlayers = async () => {
+    await deleteRemoveAllPlayers();
+    setPlayers([]);
+    console.log("all players deleted");
+    // navigate("/");
+  };
+
+  const changePlayerData = (playerToChange) => {
+    const playerIndex = players.findIndex((player) => {
+      return player.id === playerToChange.id
+    });
+
+    const updatedPlayers = [...players];
+    updatedPlayers[playerIndex] = playerToChange;
+    setPlayers(updatedPlayers);
+    console.log(updatedPlayers);
+  }
 
   return (
     <deckContext.Provider
@@ -91,12 +87,13 @@ export function DeckProvider({ children }) {
         currentCard,
         playerTurn,
         players,
-        deck,
         changeTurn,
         TakeCard,
         dealCardsServer,
         checkDeath,
         onCreateNewPlayer,
+        removeAllPlayers,
+        changePlayerData,
       }}
     >
       {children}

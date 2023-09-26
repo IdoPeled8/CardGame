@@ -7,5 +7,7 @@ namespace card_game_server.Repositories
         void CreateNewDeck();
         List<Card> ShuffleDeck();
         Card TakeCardFromDeck();
+        Player AttackPlayer(Player enemyPlayer,Card attackCard);
+        Card FindCardByValue(int value);
     }
 }

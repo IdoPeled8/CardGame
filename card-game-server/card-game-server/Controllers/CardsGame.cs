@@ -16,39 +16,30 @@ namespace card_game_server.Controllers
         private readonly IDeckLogic _deckLogic;
         private readonly IPlayersLogic _playersLogic;
 
-        public CardsGame(IDeckLogic deckLogic,IPlayersLogic playersLogic)
+        public CardsGame(IDeckLogic deckLogic, IPlayersLogic playersLogic)
         {
             _deckLogic = deckLogic;
             _playersLogic = playersLogic;
         }
 
-        // GET: api/<CardsGame>
         [HttpGet]
-        public Tuple<List<Player>, List<Card>> StartGame()
+        public List<Player> StartGame()
         {
             _playersLogic.RemovePlayersHand();
             _deckLogic.CreateNewDeck();
 
-            var deck = _deckLogic.ShuffleDeck();
-            //_playersLogic.CreatePlayer("player1");
-            //_playersLogic.CreatePlayer("player2");
-            //_playersLogic.CreatePlayer("player3");
-            //_playersLogic.CreatePlayer("player4");
+            _deckLogic.ShuffleDeck();
             var players = _playersLogic.DealCards();
 
-            var gameData = new Tuple<List<Player>, List<Card>>(players, deck);
+            return players;
 
-            return gameData;
 
-            //make put api for making player
-
-        } //if the code is testble this means hes good
+        } //if the code is testable this means hes good
 
         [HttpGet]
         public List<Card> ShuffleDeck()
         {
             //this is ok for now but in real i need to check what is the currect cards of the players and shuffle deck without this cards
-            //maybe just move this to the client to?
             _deckLogic.CreateNewDeck();
             var deck = _deckLogic.ShuffleDeck();
 
@@ -57,10 +48,7 @@ namespace card_game_server.Controllers
         }
 
         [HttpGet]
-        public Card TakeCard()
-        {
-            return _deckLogic.TakeCardFromDeck();
-        }
+        public Card TakeCard() => _deckLogic.TakeCardFromDeck();
 
         [HttpPost]
         public IActionResult CreateNewPlayer(string name)
@@ -77,31 +65,50 @@ namespace card_game_server.Controllers
             }
 
         }
-        //add delete players
 
-        //// GET api/<CardsGame>/5
-        //[HttpGet("{id}")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
+        [HttpPut("{playerId}/{cardValue}")]
+        public IActionResult AttackPlayer(string playerId, int cardValue)
+        {
+            var enemyplayer = _playersLogic.FindPlayerById(playerId);
+            var attackCard = _deckLogic.FindCardByValue(cardValue);
+            Console.WriteLine(enemyplayer);
+            Console.WriteLine(attackCard);
 
-        //// POST api/<CardsGame>
-        //[HttpPost]
-        //public void Post([FromBody] string value)
-        //{
-        //}
+            var player = _deckLogic.AttackPlayer(enemyplayer, attackCard);
+            return Ok(player);
+        }
 
-        //// PUT api/<CardsGame>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        [HttpDelete]
+        public IActionResult DeleteAllPlayers()
+        {
+            try
+            {
+                _playersLogic.RemoveAllPlayers();
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest("somthing went wrong when trying to remove all players");
+            }
+        }
 
-        //// DELETE api/<CardsGame>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        [HttpDelete("{id}")]
+        public IActionResult DeletePlayerById(string id)
+        {
+            try
+            {
+                _playersLogic.RemovePlayer(id);
+                return Ok();
+            }
+            catch (InvalidDataException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception)
+            {
+                return BadRequest("somthing went wrong when trying to remove player");
+            }
+        }
+
     }
 }

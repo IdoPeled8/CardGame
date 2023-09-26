@@ -1,8 +1,12 @@
 import React from 'react';
-import SimpleButton from '../ui/SimpleButton';
+import SimpleButton from '../ui/Button/SimpleButton';
+import { colors } from '../../utils/Colors';
+import { useDeckContext } from '../../Contexts/DeckContext';
+import Card from '../Card';
 
 const Player = ({ player, handleAttack, handleChangeGuard }) => {
 
+  const {playerTurn} = useDeckContext();
   const attack = () => {
     handleAttack(player)
   }
@@ -19,21 +23,25 @@ const Player = ({ player, handleAttack, handleChangeGuard }) => {
           <li>
             <strong>Guard:</strong>
             <br />
-            {player.hand?.guard.shape} | {player.hand?.guard.value}
+            {/* {player.hand?.guard.shape} | {player.hand?.guard.value} */}
+            <Card imageName={player.hand?.guard.imageName}></Card>
           </li>
           <br />
           <li>
             <strong>Health:</strong>
             <br />
-            {player.hand?.heart1.shape} | {player.hand?.heart1.value}
-            <br />
-            {player.hand?.heart2.shape} | {player.hand?.heart2.value}
+            {/* {player.hand?.heart1.shape} | {player.hand?.heart1.value}
+            {player.hand?.heart2.shape} | {player.hand?.heart2.value} */}
+            <Card imageName={player.hand?.heart1.imageName}></Card>
+            <Card imageName={player.hand?.heart2.imageName}></Card>
           </li>
         </ul>
         {!player.isDead && (
           <>
-            <SimpleButton onClick={attack}>Attack Me</SimpleButton>
-            <SimpleButton onClick={changeGuard}>Change Guard</SimpleButton>
+          {playerTurn.name !== player.name && (
+            <SimpleButton color={colors.red} onClick={attack}>Attack</SimpleButton>
+          )}
+            <SimpleButton color={colors.yellow} onClick={changeGuard}>Change Guard</SimpleButton>
           </>
         )}
       </div>

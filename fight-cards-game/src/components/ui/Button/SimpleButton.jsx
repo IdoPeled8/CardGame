@@ -1,11 +1,12 @@
 // components/Button.js
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import './SimpleButton.css';
+import './simpleButton.css';
 
-const SimpleButton = ({ onClick, children }) => {
+
+const SimpleButton = ({ onClick, children,color }) => {
   return (
-    <button className="btn" onClick={onClick}>
+    <button className={`myBtn btn ${color || "btn-primary"}`} onClick={onClick}>
       {children}
     </button>
   );
