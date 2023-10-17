@@ -15,11 +15,15 @@ namespace card_game_server.Controllers
 
         private readonly IDeckLogic _deckLogic;
         private readonly IPlayersLogic _playersLogic;
+        private readonly IGameLogic _gameLogic;
+        private readonly GameData _gameData;
 
-        public CardsGame(IDeckLogic deckLogic, IPlayersLogic playersLogic)
+        public CardsGame(IDeckLogic deckLogic, IPlayersLogic playersLogic, IGameLogic gameLogic, GameData gameData)
         {
             _deckLogic = deckLogic;
             _playersLogic = playersLogic;
+            _gameLogic = gameLogic;
+            _gameData = gameData;
         }
         //instead of creating gameData everytime make one instance and use him??
         //inject??
@@ -27,20 +31,18 @@ namespace card_game_server.Controllers
         [HttpGet]
         public IActionResult StartGame()
         {
-            _playersLogic.RemovePlayersHand();
+            _gameLogic.RemovePlayersHand();
             _deckLogic.CreateNewDeck();
 
             _deckLogic.ShuffleDeck();
 
-            var players = _playersLogic.DealCards();
-            var startPlayer = _playersLogic.whoStart();
+            var players = _gameLogic.DealCards();
+            var startPlayer = _gameLogic.WhoStart();
 
-            GameData data = new GameData()
-            {
-                playerTurn = startPlayer,
-                Players = players
-            };
-            return Ok(data);
+            _gameData.playerTurn = startPlayer;
+            _gameData.Players = players;
+
+            return Ok(_gameData);
 
 
         } //if the code is testable this means hes good
@@ -53,7 +55,6 @@ namespace card_game_server.Controllers
             var deck = _deckLogic.ShuffleDeck();
 
             return deck;
-
         }
 
         [HttpGet]
@@ -62,8 +63,6 @@ namespace card_game_server.Controllers
         [HttpPost]
         public IActionResult CreateNewPlayer(string name)
         {
-            Console.WriteLine("create");
-            Console.WriteLine(name);
             try
             {
                 var newPlayer = _playersLogic.CreatePlayer(name);
@@ -82,16 +81,15 @@ namespace card_game_server.Controllers
         {
             var cardFromDeck = _deckLogic.TakeCardFromDeck();
 
-            var player = _playersLogic.AttackPlayer(playerId, cardFromDeck);
+            _playersLogic.AttackPlayer(playerId, cardFromDeck);
 
             _playersLogic.CheckDeath();
-            var playerTurn = _playersLogic.ChangeTurn();
+            var playerTurn = _gameLogic.ChangeTurn();
             GameData data = new GameData()
             {
                 cardTake = cardFromDeck,
                 playerTurn = playerTurn,
                 Players = _playersLogic.GetAllPlayers()
-
             };
             Console.WriteLine(data);
 
@@ -103,9 +101,9 @@ namespace card_game_server.Controllers
         {
             var card = _deckLogic.TakeCardFromDeck();
 
-            var player = _playersLogic.ChangeGuard(playerId, card);
+           _playersLogic.ChangeGuard(playerId, card);
 
-            var playerTurn = _playersLogic.ChangeTurn();
+            var playerTurn = _gameLogic.ChangeTurn();
 
             GameData data = new GameData()
             {
