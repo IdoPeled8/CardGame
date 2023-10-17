@@ -21,17 +21,26 @@ namespace card_game_server.Controllers
             _deckLogic = deckLogic;
             _playersLogic = playersLogic;
         }
+        //instead of creating gameData everytime make one instance and use him??
+        //inject??
 
         [HttpGet]
-        public List<Player> StartGame()
+        public IActionResult StartGame()
         {
             _playersLogic.RemovePlayersHand();
             _deckLogic.CreateNewDeck();
 
             _deckLogic.ShuffleDeck();
-            var players = _playersLogic.DealCards();
 
-            return players;
+            var players = _playersLogic.DealCards();
+            var startPlayer = _playersLogic.whoStart();
+
+            GameData data = new GameData()
+            {
+                playerTurn = startPlayer,
+                Players = players
+            };
+            return Ok(data);
 
 
         } //if the code is testable this means hes good
@@ -69,7 +78,7 @@ namespace card_game_server.Controllers
 
 
         [HttpPut("{playerId}")]
-        public GameData AttackPlayer(string playerId) 
+        public IActionResult AttackPlayer(string playerId) 
         {
             var cardFromDeck = _deckLogic.TakeCardFromDeck();
 
@@ -86,7 +95,7 @@ namespace card_game_server.Controllers
             };
             Console.WriteLine(data);
 
-            return data;
+            return Ok(data);
         }
 
         [HttpPut("{playerId}")]

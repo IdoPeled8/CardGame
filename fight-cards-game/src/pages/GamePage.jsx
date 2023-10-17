@@ -18,18 +18,14 @@ const GamePage = () => {
     players,
     currentCard,
     playerTurn,
-    changeTurn,
-    TakeCard,
-    dealCardsServer,
-    checkDeath,
+    startNewGame,
     removeAllPlayers,
-    changePlayerData,
     afterMove,
   } = useDeckContext();
 
   const handleAttack = async (playerToAttack) => {
-      const data = await putAttackPlayer(playerToAttack);
-      afterMove(data);
+    const data = await putAttackPlayer(playerToAttack);
+    afterMove(data);
   };
 
   const handleChangeGuard = async (playerToChange) => {
@@ -44,7 +40,7 @@ const GamePage = () => {
 
   return (
     <div className="game-page">
-      <SimpleButton color={colors.white} onClick={dealCardsServer}>
+      <SimpleButton color={colors.white} onClick={startNewGame}>
         Start new game
       </SimpleButton>
       <SimpleLink to="/">Back to home page</SimpleLink>

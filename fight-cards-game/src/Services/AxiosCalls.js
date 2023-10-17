@@ -11,8 +11,8 @@ import {
 } from "../data/URLs";
 
 export const getStartGame = async () => {
-  const { data: GameData } = await axios.get(getStartGameUrl);
-  return GameData;
+  const {data} = await axios.get(getStartGameUrl);
+  return data;
 };
 
 export const getTakeCard = async () => {
