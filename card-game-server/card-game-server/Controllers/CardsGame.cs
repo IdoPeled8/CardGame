@@ -29,7 +29,7 @@ namespace card_game_server.Controllers
         [HttpGet]
         public IActionResult StartGame()
         {
-            _gameLogic.RemovePlayersHand();
+            _gameLogic.ClearPlayerData();
             _deckLogic.CreateNewDeck();
 
             _deckLogic.ShuffleDeck();

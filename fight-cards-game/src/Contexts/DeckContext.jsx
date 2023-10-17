@@ -12,27 +12,30 @@ export function DeckProvider({ children }) {
   const [currentCard, setCurrentCard] = useState({});
   const [playerTurn, setPlayerTurn] = useState("");
 
-
   const onCreateNewPlayer = async (newPlayer) => {
     await postCreateNewPlayer(newPlayer);
     setPlayers([...players, newPlayer]);
   };
+
   const startNewGame = async () => {
     clearProps();
     const data = await getStartGame();
     setPlayers(data.players);
     setPlayerTurn(data.playerTurn);
   };
+
   const removeAllPlayers = async () => {
     await deleteRemoveAllPlayers();
     clearProps();
     console.log("all players deleted");
   };
+
   const afterMove = (data) => {
     setPlayers(data.players);
     setCurrentCard(data.cardTake);
     setPlayerTurn(data.playerTurn);
   };
+  
   const clearProps = () => {
     setPlayers([]);
     setCurrentCard({});

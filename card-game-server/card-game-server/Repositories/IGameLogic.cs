@@ -7,7 +7,7 @@ namespace card_game_server.Repositories
     {
         List<Player> DealCards();
         Player ChangeTurn();
-        void RemovePlayersHand();
+        void ClearPlayerData();
         Player WhoStart();
         public GameData fillGamedata(Card CurrentCard, Player playerTurn, List<Player> players);
     }

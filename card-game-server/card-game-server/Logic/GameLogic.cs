@@ -16,13 +16,15 @@ namespace card_game_server.Logic
             _gameData = gameData;
         }
 
-        public void RemovePlayersHand()
+        public void ClearPlayerData()
         {
             foreach (var player in _simpleData.Players)
             {
                 player.Hand[HandKeys.Heart1] = null;
                 player.Hand[HandKeys.Heart2] = null;
                 player.Hand[HandKeys.Guard] = null;
+                player.isDead = false;
+                player.turn = false;
             }
         }
         public List<Player> DealCards()
