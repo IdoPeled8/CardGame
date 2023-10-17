@@ -16,5 +16,6 @@ namespace card_game_server.Repositories
         List<Player> GetAllPlayers();
         Player AttackPlayer(string playerToAttackId, Card attackCard);
         Player ChangeGuard( string playerId, Card card);
+        Player whoStart();
     }
 }

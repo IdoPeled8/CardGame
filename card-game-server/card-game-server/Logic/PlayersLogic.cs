@@ -34,7 +34,7 @@ namespace card_game_server.Logic
                 player.Hand[HandKeys.Guard] = _simpleData.Deck[2];
                 _simpleData.Deck.RemoveAt(2);
             }
-            whoStart();
+           // whoStart();
             Console.WriteLine(_simpleData.Deck.Count);
             Console.WriteLine(_simpleData.Players.Count);
             return _simpleData.Players;
@@ -84,7 +84,7 @@ namespace card_game_server.Logic
             return player;
         }
 
-        private void whoStart()
+        public Player whoStart()
         {
             Player lowestGuardPlayer = null!;
             int lowestGuardValue = 14; // Start with a high value to ensure any guard value is lower
@@ -101,6 +101,7 @@ namespace card_game_server.Logic
             }
             var index = _simpleData.Players.FindIndex(player => player.Id == lowestGuardPlayer.Id);
             _simpleData.Players[index].turn = true;
+            return _simpleData.Players[index];
         }
 
         public Player AttackPlayer(string playerToAttackId, Card attackCard)
