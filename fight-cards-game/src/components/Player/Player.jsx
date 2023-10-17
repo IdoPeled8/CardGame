@@ -23,13 +23,13 @@ const Player = ({ player, handleAttack, handleChangeGuard }) => {
       <br />
       <div className="card-container">
         {player.hand?.guard !== undefined && (
-          <Card imageName={player.hand?.guard.imageName}></Card>
+          <Card imageName={player.hand?.guard?.imageName}></Card>
         )}
       </div>
       {player.hand?.heart1 !== undefined && (
         <div className="card-container">
-          <Card imageName={player.hand?.heart1.imageName}></Card>
-          <Card imageName={player.hand?.heart2.imageName}></Card>
+          <Card imageName={player.hand?.heart1?.imageName}></Card>
+          <Card imageName={player.hand?.heart2?.imageName}></Card>
         </div>
       )}
       {!player.isDead &&(

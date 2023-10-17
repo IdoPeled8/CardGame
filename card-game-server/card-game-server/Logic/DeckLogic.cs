@@ -46,7 +46,6 @@ namespace card_game_server.Logic
             }
             var card = _simpleData.Deck.First();
             _simpleData.Deck.Remove(card);
-            Console.WriteLine(_simpleData.Deck.Count);
             return card;
         }
 
@@ -57,6 +56,7 @@ namespace card_game_server.Logic
                 var card = _simpleData.Deck.FirstOrDefault(card => card.Value == value);
                 if (card == null)
                 {
+                    CreateNewDeck() ;
                     ShuffleDeck();
                     card = _simpleData.Deck.FirstOrDefault(card => card.Value == value);
                 }

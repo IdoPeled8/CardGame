@@ -4,7 +4,7 @@
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public Dictionary<string, Card?> Hand { get; }
+        public Dictionary<string, Card?> Hand { get; set; }
         public bool turn {get; set;}
         public bool isDead { get; set;}
 
@@ -14,9 +14,9 @@
             Name = name;
             Hand = new Dictionary<string, Card?>
             {
-                {"heart1",null },
-                {"heart2",null },
-                {"guard",null }
+                {"heart1",new Card(null!, 0, "noHealth.png") },
+                {"heart2", new Card(null!, 0, "noHealth.png") },
+                {"guard", new Card(null!, 0, "noHealth.png") }
 
             };
 

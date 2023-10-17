@@ -9,7 +9,6 @@ namespace card_game_server.Repositories
         Player CreatePlayer(string name);
         void RemovePlayer(string id);
         void RemoveAllPlayers();
-        void CheckDeath();
         Player AttackPlayer(string playerToAttackId, Card attackCard);
         Player ChangeGuard( string playerId, Card card);
        

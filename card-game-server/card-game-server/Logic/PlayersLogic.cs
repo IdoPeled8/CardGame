@@ -50,7 +50,7 @@ namespace card_game_server.Logic
         //attack and change guard should be in game logic?
         public Player AttackPlayer(string playerToAttackId, Card attackCard)
         {
-          var playerToAttack = FindPlayerById(playerToAttackId);
+            var playerToAttack = FindPlayerById(playerToAttackId);
 
             if (attackCard.Value <= playerToAttack.Hand[HandKeys.Guard]!.Value)
             {
@@ -66,13 +66,15 @@ namespace card_game_server.Logic
 
             if (totalHealth <= 0)
             {
-                playerToAttack.Hand[HandKeys.Heart1] = new Card(null!, 0, "noHealth");
-                playerToAttack.Hand[HandKeys.Heart2] = new Card(null!, 0, "noHealth");
+                playerToAttack.Hand[HandKeys.Heart1] = new Card(null!, 0, "noHealth.png");
+                playerToAttack.Hand[HandKeys.Heart2] = new Card(null!, 0, "noHealth.png");
+                playerToAttack.Hand[HandKeys.Guard] = new Card(null!, 0, "noHealth.png");
+                playerToAttack.isDead = true;
             }
             else if (totalHealth <= 13)
             {
                 playerToAttack.Hand[HandKeys.Heart1] = _deckLogic.FindCardByValue(totalHealth);
-                playerToAttack.Hand[HandKeys.Heart2] = new Card(null!, 0, "noHealth");
+                playerToAttack.Hand[HandKeys.Heart2] = new Card(null!, 0, "noHealth.png");
             }
             else
             {
@@ -82,23 +84,12 @@ namespace card_game_server.Logic
             }
             var index = _simpleData.Players.FindIndex(player => player.Id == playerToAttack.Id);
             _simpleData.Players[index] = playerToAttack;
-            return playerToAttack;
-        }
-
-        public void CheckDeath()
-        { // here i get exeption somthing about null value need to check this
-            foreach (var player in _simpleData.Players)
-            {
-                if (player.Hand[HandKeys.Heart1]!.Value == 0 && player.Hand[HandKeys.Heart2]!.Value == 0)
-                {
-                    player.isDead = true;
-                }
-            }
+            return _simpleData.Players[index];
         }
 
         public Player ChangeGuard(string playerId, Card card)
         {
-          var playerToChange = FindPlayerById(playerId);
+            var playerToChange = FindPlayerById(playerId);
 
             var index = _simpleData.Players.FindIndex(player => player.Id == playerToChange.Id);
 

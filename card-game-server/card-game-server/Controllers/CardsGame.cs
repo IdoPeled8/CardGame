@@ -80,7 +80,6 @@ namespace card_game_server.Controllers
 
             _playersLogic.AttackPlayer(playerId, card);
 
-            _playersLogic.CheckDeath();
             var playerTurn = _gameLogic.ChangeTurn();
 
             _gameLogic.fillGamedata(card, playerTurn, _playersLogic.GetAllPlayers());
