@@ -13,7 +13,6 @@ namespace card_game_server.Logic
     public class DeckLogic : IDeckLogic
     {
 
-
         private readonly SimpleData _simpleData;
 
         public DeckLogic(SimpleData simpleData)
@@ -66,41 +65,7 @@ namespace card_game_server.Logic
             throw new Exception("this card value dosent exist");
         }
 
-        public Player AttackPlayer(Player enemyPlayer, Card attackCard)
-        {
-            var totalHealth = enemyPlayer.Hand[HandKeys.Heart1]!.Value + enemyPlayer.Hand[HandKeys.Heart2]!.Value;
-
-            var attackValue = attackCard.Value - enemyPlayer.Hand[HandKeys.Guard]!.Value;
-
-            totalHealth -= attackValue;
-
-            if (totalHealth <= 0)
-            {
-                enemyPlayer.Hand[HandKeys.Heart1] = new Card(null!, 0, "noHealth");
-                enemyPlayer.Hand[HandKeys.Heart2] = new Card(null!, 0, "noHealth");
-                //return new Card(null!, 0, "noHealth");
-                //enemyPlayer.Hand[HandKeys.Heart1]!.Value = 0;
-                //enemyPlayer.Hand[HandKeys.Heart2]!.Value = 0;
-            }
-            else if (totalHealth <= 13)
-            {
-                enemyPlayer.Hand[HandKeys.Heart1] = FindCardByValue(totalHealth);
-                enemyPlayer.Hand[HandKeys.Heart2] = new Card(null!, 0, "noHealth");
-                // return findCard(totalHealth); //return card with totalHealth value
-                // enemyPlayer.Hand[HandKeys.Heart1]!.Value = totalHealth;
-                // enemyPlayer.Hand[HandKeys.Heart2]!.Value = 0;
-            }
-            else
-            {
-                enemyPlayer.Hand[HandKeys.Heart1] = FindCardByValue(13);
-                totalHealth -= 13;
-                enemyPlayer.Hand[HandKeys.Heart2] = FindCardByValue(totalHealth);
-
-                // enemyPlayer.Hand[HandKeys.Heart1]!.Value = 13;
-                // enemyPlayer.Hand[HandKeys.Heart2]!.Value = totalHealth;
-            }
-            return enemyPlayer;
-        }
+       
     }
 }
 

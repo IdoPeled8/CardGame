@@ -53,6 +53,7 @@ namespace card_game_server.Controllers
         [HttpPost]
         public IActionResult CreateNewPlayer(string name)
         {
+            Console.WriteLine("create");
             Console.WriteLine(name);
             try
             {
@@ -66,16 +67,45 @@ namespace card_game_server.Controllers
 
         }
 
-        [HttpPut("{playerId}/{cardValue}")]
-        public IActionResult AttackPlayer(string playerId, int cardValue)
-        {
-            var enemyplayer = _playersLogic.FindPlayerById(playerId);
-            var attackCard = _deckLogic.FindCardByValue(cardValue);
-            Console.WriteLine(enemyplayer);
-            Console.WriteLine(attackCard);
 
-            var player = _deckLogic.AttackPlayer(enemyplayer, attackCard);
-            return Ok(player);
+        [HttpPut("{playerId}")]
+        public GameData AttackPlayer(string playerId) 
+        {
+            var cardFromDeck = _deckLogic.TakeCardFromDeck();
+
+            var player = _playersLogic.AttackPlayer(playerId, cardFromDeck);
+
+            _playersLogic.CheckDeath();
+            var playerTurn = _playersLogic.ChangeTurn();
+            GameData data = new GameData()
+            {
+                cardTake = cardFromDeck,
+                playerTurn = playerTurn,
+                Players = _playersLogic.GetAllPlayers()
+
+            };
+            Console.WriteLine(data);
+
+            return data;
+        }
+
+        [HttpPut("{playerId}")]
+        public IActionResult ChangeGuard(string playerId)
+        {
+            var card = _deckLogic.TakeCardFromDeck();
+
+            var player = _playersLogic.ChangeGuard(playerId, card);
+
+            var playerTurn = _playersLogic.ChangeTurn();
+
+            GameData data = new GameData()
+            {
+                cardTake = card,
+                playerTurn = playerTurn,
+                Players = _playersLogic.GetAllPlayers()
+            };
+
+            return Ok(data);
         }
 
         [HttpDelete]

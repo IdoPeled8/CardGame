@@ -2,7 +2,8 @@
 {
     public class GameData
     {
-        public List<Card> Deck;
-        public List<Player> Players;
+        public Card? cardTake { get; set; }
+        public List<Player>? Players { get; set; }
+        public Player? playerTurn { get; set; }
     }
 }

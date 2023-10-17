@@ -5,9 +5,13 @@
         public Guid Id { get; set; }
         public string Name { get; set; }
         public Dictionary<string, Card?> Hand { get; }
+        public bool turn {get; set;}
+        public bool isDead { get; set;}
 
         public Player(string name)
         {
+            Id = Guid.NewGuid();
+            Name = name;
             Hand = new Dictionary<string, Card?>
             {
                 {"heart1",null },
@@ -15,8 +19,7 @@
                 {"guard",null }
 
             };
-            Id = Guid.NewGuid();
-            Name = name;
+
         }
 
 
