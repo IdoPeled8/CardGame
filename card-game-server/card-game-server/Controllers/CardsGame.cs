@@ -1,6 +1,4 @@
-﻿using card_game_server.Data;
-using card_game_server.Logic;
-using card_game_server.Models;
+﻿using card_game_server.Models;
 using card_game_server.Models.DTO_Models;
 using card_game_server.Repositories;
 using Microsoft.AspNetCore.Mvc;
