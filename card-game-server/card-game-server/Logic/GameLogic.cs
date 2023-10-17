@@ -1,11 +1,20 @@
 ﻿using card_game_server.Data;
 using card_game_server.Models;
+using card_game_server.Models.DTO_Models;
 using card_game_server.Repositories;
 
 namespace card_game_server.Logic
 {
     public class GameLogic:IGameLogic
     {
+        private readonly SimpleData _simpleData;
+        private readonly GameData _gameData;
+
+        public GameLogic(SimpleData simpleData, GameData gameData)
+        {
+            _simpleData = simpleData;
+            _gameData = gameData;
+        }
 
         public void RemovePlayersHand()
         {
@@ -18,30 +27,24 @@ namespace card_game_server.Logic
         }
         public List<Player> DealCards()
         {
-            //using both cards and players
-
             foreach (var player in _simpleData.Players)
             {
-                //add data to the keys names for not hard coded every time
-
                 player.Hand[HandKeys.Heart1] = _simpleData.Deck[0];
                 _simpleData.Deck.RemoveAt(0);
-                player.Hand[HandKeys.Heart2] = _simpleData.Deck[1];
-                _simpleData.Deck.RemoveAt(1);
-                player.Hand[HandKeys.Guard] = _simpleData.Deck[2];
-                _simpleData.Deck.RemoveAt(2);
+                player.Hand[HandKeys.Heart2] = _simpleData.Deck[0];
+                _simpleData.Deck.RemoveAt(0);
+                player.Hand[HandKeys.Guard] = _simpleData.Deck[0];
+                _simpleData.Deck.RemoveAt(0);
             }
             // whoStart();
             Console.WriteLine(_simpleData.Deck.Count);
-            Console.WriteLine(_simpleData.Players.Count);
             return _simpleData.Players;
         }
-        public Player whoStart()
+        public Player WhoStart()
         {
             Player lowestGuardPlayer = null!;
             int lowestGuardValue = 14; // Start with a high value to ensure any guard value is lower
 
-            // Iterate through the players to find the one with the lowest guard
             foreach (var player in _simpleData.Players)
             {
 
@@ -57,7 +60,7 @@ namespace card_game_server.Logic
         }
         public Player ChangeTurn()
         {
-            Player currentPlayerTurn = _simpleData.Players.Find(player => player.turn == true);
+            Player currentPlayerTurn = _simpleData.Players.Find(player => player.turn == true)!;
 
             int index = _simpleData.Players.IndexOf(currentPlayerTurn);
             _simpleData.Players[index].turn = false;
@@ -73,9 +76,14 @@ namespace card_game_server.Logic
             _simpleData.Players[newIndex].turn = true;
             Player newPlayer = _simpleData.Players[newIndex];
 
-            //currentPlayerTurn = newPlayer;
-
             return newPlayer;
+        }
+        public GameData fillGamedata(Card CurrentCard, Player playerTurn, List<Player> players)
+        {
+            _gameData.Players = players;
+            _gameData.cardTake = CurrentCard;
+            _gameData.playerTurn = playerTurn;
+            return _gameData;
         }
     }
 }

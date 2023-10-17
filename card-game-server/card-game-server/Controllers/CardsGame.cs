@@ -27,7 +27,7 @@ namespace card_game_server.Controllers
         }
         //instead of creating gameData everytime make one instance and use him??
         //inject??
-
+       
         [HttpGet]
         public IActionResult StartGame()
         {
@@ -36,11 +36,12 @@ namespace card_game_server.Controllers
 
             _deckLogic.ShuffleDeck();
 
-            var players = _gameLogic.DealCards();
+            _gameLogic.DealCards();
             var startPlayer = _gameLogic.WhoStart();
 
-            _gameData.playerTurn = startPlayer;
-            _gameData.Players = players;
+           _gameLogic.fillGamedata(null!, startPlayer,_playersLogic.GetAllPlayers());
+           // _gameData.playerTurn = startPlayer;
+           // _gameData.Players = players;
 
             return Ok(_gameData);
 
@@ -79,21 +80,16 @@ namespace card_game_server.Controllers
         [HttpPut("{playerId}")]
         public IActionResult AttackPlayer(string playerId) 
         {
-            var cardFromDeck = _deckLogic.TakeCardFromDeck();
+            var card = _deckLogic.TakeCardFromDeck();
 
-            _playersLogic.AttackPlayer(playerId, cardFromDeck);
+            _playersLogic.AttackPlayer(playerId, card);
 
             _playersLogic.CheckDeath();
             var playerTurn = _gameLogic.ChangeTurn();
-            GameData data = new GameData()
-            {
-                cardTake = cardFromDeck,
-                playerTurn = playerTurn,
-                Players = _playersLogic.GetAllPlayers()
-            };
-            Console.WriteLine(data);
 
-            return Ok(data);
+            _gameLogic.fillGamedata(card, playerTurn, _playersLogic.GetAllPlayers());
+
+            return Ok(_gameData);
         }
 
         [HttpPut("{playerId}")]
@@ -105,14 +101,9 @@ namespace card_game_server.Controllers
 
             var playerTurn = _gameLogic.ChangeTurn();
 
-            GameData data = new GameData()
-            {
-                cardTake = card,
-                playerTurn = playerTurn,
-                Players = _playersLogic.GetAllPlayers()
-            };
-
-            return Ok(data);
+            _gameLogic.fillGamedata(card, playerTurn, _playersLogic.GetAllPlayers());
+            
+            return Ok(_gameData);
         }
 
         [HttpDelete]

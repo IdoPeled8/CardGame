@@ -17,15 +17,22 @@ namespace card_game_server.Logic
             _deckLogic = deckLogic;
         }
 
-      
-    
-
         public Player CreatePlayer(string name)
         {
             _simpleData.Players.Add(new Player(name));
             return _simpleData.Players[_simpleData.Players.Count - 1];
         }
-
+        public List<Player> GetAllPlayers() => _simpleData.Players;
+        public Player FindPlayerById(string playerId)
+        {
+            var player = _simpleData.Players.FirstOrDefault(player => player.Id.ToString() == playerId);
+            if (player == null)
+            {
+                throw new Exception("Player not nound");
+            }
+            return player;
+        }
+        public void RemoveAllPlayers() => _simpleData.Players.Clear();
         public void RemovePlayer(string id)
         {
             var player = _simpleData.Players.FirstOrDefault(player => player.Id.ToString() == id);
@@ -39,20 +46,8 @@ namespace card_game_server.Logic
             }
         }
 
-        public void RemoveAllPlayers() => _simpleData.Players.Clear();
 
-        public Player FindPlayerById(string playerId)
-        {
-            var player = _simpleData.Players.FirstOrDefault(player => player.Id.ToString() == playerId);
-            if (player == null)
-            {
-                throw new Exception("Player not nound");
-            }
-            return player;
-        }
-
-       
-
+        //attack and change guard should be in game logic?
         public Player AttackPlayer(string playerToAttackId, Card attackCard)
         {
           var playerToAttack = FindPlayerById(playerToAttackId);
@@ -90,13 +85,7 @@ namespace card_game_server.Logic
             return playerToAttack;
         }
 
-      
-        public List<Player> GetAllPlayers()
-        {
-            return _simpleData.Players;
-        }
-
-       public void CheckDeath()
+        public void CheckDeath()
         { // here i get exeption somthing about null value need to check this
             foreach (var player in _simpleData.Players)
             {
