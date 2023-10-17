@@ -22,6 +22,7 @@ export function DeckProvider({ children }) {
     setPlayers([...players, newPlayer]);
   };
   const dealCardsServer = async () => {
+    clearProps();
     const playersData = await getStartGame();
 
     setPlayers((prevPlayers) => {
@@ -29,6 +30,9 @@ export function DeckProvider({ children }) {
       setPlayerTurn(whoStart(updatedPlayers));
       return updatedPlayers;
     });
+    console.log("start");
+    
+    
   };
 
   const TakeCard = async () => {
@@ -65,11 +69,17 @@ export function DeckProvider({ children }) {
 
   const removeAllPlayers = async () => {
     await deleteRemoveAllPlayers();
-    setPlayers([]);
+    clearProps();
     console.log("all players deleted");
     // navigate("/");
   };
 
+  const afterMove = (data) => {
+    console.log(data);
+    setPlayers(data.players)
+    setCurrentCard(data.cardTake)
+    setPlayerTurn(data.playerTurn)
+  }
   const changePlayerData = (playerToChange) => {
     const playerIndex = players.findIndex((player) => {
       return player.id === playerToChange.id
@@ -79,6 +89,12 @@ export function DeckProvider({ children }) {
     updatedPlayers[playerIndex] = playerToChange;
     setPlayers(updatedPlayers);
     console.log(updatedPlayers);
+  }
+
+  const clearProps = () => {
+    setPlayers([]);
+    setCurrentCard({});
+    setPlayerTurn("");
   }
 
   return (
@@ -94,6 +110,7 @@ export function DeckProvider({ children }) {
         onCreateNewPlayer,
         removeAllPlayers,
         changePlayerData,
+        afterMove //should replace changeplayer data & chekcdeath & changeturn
       }}
     >
       {children}

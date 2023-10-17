@@ -1,19 +1,17 @@
 import axios from "axios";
-
-const getStartGameUrl = "https://localhost:7129/api/CardsGame/StartGame";
-const getTakeCardUrl = "https://localhost:7129/api/CardsGame/TakeCard";
-const getShuffleDeckUrl = "https://localhost:7129/api/CardsGame/ShuffleDeck";
-const postCreateNewPlayerURL = "https://localhost:7129/api/CardsGame/CreateNewPlayer";
-
-const deleteRemovePlayerUrl = "https://localhost:7129/api/CardsGame/DeletePlayerById";
-
-const deleteRemoveAllPlayersUrl = "https://localhost:7129/api/CardsGame/DeleteAllPlayers";
-
-const putAttackPlayerUrl = "https://localhost:7129/api/CardsGame/AttackPlayer";
+import {
+  putAttackPlayerUrl,
+  deleteRemovePlayerUrl,
+  deleteRemoveAllPlayersUrl,
+  postCreateNewPlayerURL,
+  getStartGameUrl,
+  getTakeCardUrl,
+  getShuffleDeckUrl,
+  putChangeGuardUrl,
+} from "../data/URLs";
 
 export const getStartGame = async () => {
   const { data: GameData } = await axios.get(getStartGameUrl);
-  console.log(GameData);
   return GameData;
 };
 
@@ -28,27 +26,26 @@ export const getShuffleDeck = async () => {
 };
 
 export const postCreateNewPlayer = async (newPlayer) => {
-  console.log(newPlayer);
-  const {data: newPlayerData} = await axios.post(
+  const { data: newPlayerData } = await axios.post(
     postCreateNewPlayerURL + `?name=${newPlayer}`
   );
-  console.log(newPlayerData);
   return newPlayerData;
 };
 
-export const putAttackPlayer = async (playerId, attackCardValue) => {
-  const {data: newPlayerData} = await axios.put(
-    putAttackPlayerUrl + `/${playerId}/${attackCardValue}`
-  )
-  console.log("after attack");
-  console.log(newPlayerData);
-  return newPlayerData
-}
+export const putAttackPlayer = async (playerToAttack) => {
+  const { data } = await axios.put(
+    putAttackPlayerUrl + `/${playerToAttack.id}`
+  );
+  return data;
+};
+
+export const putChangeGuard = async (playerToChange) => {
+  const { data } = await axios.put(putChangeGuardUrl + `/${playerToChange.id}`);
+  return data;
+};
 export const deleteRemovePlayer = async (id) => {
-  const res = await axios.delete(deleteRemovePlayerUrl+"/"+id);
-  console.log(res);
+  const res = await axios.delete(deleteRemovePlayerUrl + "/" + id);
 };
 export const deleteRemoveAllPlayers = async () => {
   const res = await axios.delete(deleteRemoveAllPlayersUrl);
-  console.log(res);
 };

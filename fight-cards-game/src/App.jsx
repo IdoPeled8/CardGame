@@ -1,9 +1,10 @@
 import { Link, Route, Routes } from 'react-router-dom'
 import './App.css'
+import './components/Player/Player.css'
+import './components/Card/Card.css'
 import { DeckProvider } from './Contexts/DeckContext'
 import GamePage from './pages/GamePage'
 import HomePage from './pages/HomePage'
-import 'bootstrap/dist/css/bootstrap.css';
 import SimpleLink from './components/ui/Link/SimpleLink';
 
 

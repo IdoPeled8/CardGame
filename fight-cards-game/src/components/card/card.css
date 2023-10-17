@@ -1,0 +1,13 @@
+.card-container{
+  display: flex;
+  justify-content: center;
+}
+
+.card{
+  margin: 4px;
+  width: 70px;
+  height: 80px;
+  border: 2px solid #000;
+  border-radius: 3px;
+  box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.5);
+}
