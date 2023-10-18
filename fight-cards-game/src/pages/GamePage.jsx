@@ -12,6 +12,7 @@ import {
 import { colors } from "../utils/Colors";
 import SimpleLink from "../components/ui/Link/SimpleLink";
 import Card from "../components/card/Card";
+import { useEffect, useState } from "react";
 
 const GamePage = () => {
   const {
@@ -22,6 +23,8 @@ const GamePage = () => {
     removeAllPlayers,
     afterMove,
   } = useDeckContext();
+
+  const [winnerPlayer, setWinnerPlayer] = useState();
 
   const handleAttack = async (playerToAttack) => {
     const data = await putAttackPlayer(playerToAttack);
@@ -38,16 +41,30 @@ const GamePage = () => {
     window.navigator.reload();
   };
 
+  const checkWinner = () => {
+    setWinnerPlayer(players.find((player) => player.isWinner));
+    console.log(winnerPlayer);
+  };
+
+  useEffect(() => {
+    checkWinner()
+  }, [handleAttack]);
+
   return (
     <div className="game-page">
-      <SimpleButton color={colors.white} onClick={startNewGame}>
+      <div className="GameButtons">
+      <SimpleButton color={colors.green} onClick={startNewGame}>
         Start new game
       </SimpleButton>
       <SimpleLink to="/">Back to home page</SimpleLink>
       <SimpleButton color={colors.red} onClick={onRemoveAllPlayers}>
         Remove all Players
       </SimpleButton>
+      </div>
       <div className="someData">Turn: {playerTurn.name}</div>
+
+      <div className="someData"> {winnerPlayer != undefined && winnerPlayer.name + " is the winner"}</div>
+
       <div className="table">
         <div className="card-deck">
           {currentCard.value !== undefined && (

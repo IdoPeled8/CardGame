@@ -14,7 +14,7 @@ const Player = ({ player, handleAttack, handleChangeGuard }) => {
   };
 
   return (
-    <div className={"player" + (player.isDead ? " dead" : " ") + (playerTurn.id === player.id ? " myTurn" : " ")}>
+    <div className={"player" + (player.isDead ? " dead" : " ") + (playerTurn.id === player.id ? " myTurn" : " ") + (player.isWinner ? " winner" : " ")}>
 
       <div className="playerName">{player.name}</div>
 
@@ -32,17 +32,17 @@ const Player = ({ player, handleAttack, handleChangeGuard }) => {
           <Card imageName={player.hand?.heart2?.imageName}></Card>
         </div>
       )}
-      {!player.isDead &&(
+      {!player.isDead && !player.isWinner && (
         <>
           {playerTurn.id !== player.id && (
             <SimpleButton color={colors.red} onClick={attack}>
               Attack
             </SimpleButton>
           )}
-          {player.hand?.guard !== undefined &&
-          <SimpleButton color={colors.yellow} onClick={changeGuard}>
+         
+          <SimpleButton color={colors.green} onClick={changeGuard}>
             Change Guard
-          </SimpleButton>}
+          </SimpleButton>
         </>
       )}
     </div>

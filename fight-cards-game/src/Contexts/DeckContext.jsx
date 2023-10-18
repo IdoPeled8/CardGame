@@ -15,6 +15,7 @@ export function DeckProvider({ children }) {
   const onCreateNewPlayer = async (newPlayer) => {
     await postCreateNewPlayer(newPlayer);
     setPlayers([...players, newPlayer]);
+    
   };
 
   const startNewGame = async () => {
