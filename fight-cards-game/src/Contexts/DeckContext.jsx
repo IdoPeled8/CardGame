@@ -1,9 +1,10 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import {
   getStartGame,
   postCreateNewPlayer,
   deleteRemoveAllPlayers,
 } from "../Services/AxiosCalls";
+import { HubConnectionBuilder } from "@microsoft/signalr";
 
 const deckContext = createContext();
 
@@ -12,10 +13,36 @@ export function DeckProvider({ children }) {
   const [currentCard, setCurrentCard] = useState({});
   const [playerTurn, setPlayerTurn] = useState("");
 
+  useEffect(() => {
+    // Start the connection
+    const connection = new HubConnectionBuilder()
+      .withUrl("https://localhost:7129/gameHub")
+      .build();
+
+    connection
+      .start()
+      .then(() => console.log("Connected to SignalR"))
+      .catch((error) => console.error("Error connecting to SignalR", error));
+
+    connection.on("ReceiveMessage", (user, message) => {
+      console.log(`${user}: ${message}`);
+      setMsg(message);
+    });
+    connection.on("GetAllPlayers", (allPlayers) => {
+      setPlayers(allPlayers);
+    });
+
+    //Return a cleanup function to stop the connection when the component unmounts
+    return () => {
+      connection.stop();
+    };
+  }, []);
+
+
+
   const onCreateNewPlayer = async (newPlayer) => {
     await postCreateNewPlayer(newPlayer);
-    setPlayers([...players, newPlayer]);
-    
+    //setPlayers([...players, newPlayer]);
   };
 
   const startNewGame = async () => {
@@ -36,7 +63,7 @@ export function DeckProvider({ children }) {
     setCurrentCard(data.cardTake);
     setPlayerTurn(data.playerTurn);
   };
-  
+
   const clearProps = () => {
     setPlayers([]);
     setCurrentCard({});
@@ -53,6 +80,7 @@ export function DeckProvider({ children }) {
         onCreateNewPlayer,
         removeAllPlayers,
         afterMove,
+        // connection,
       }}
     >
       {children}

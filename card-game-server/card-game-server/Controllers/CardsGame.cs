@@ -1,4 +1,5 @@
-﻿using card_game_server.Models;
+﻿using card_game_server.Hubs;
+using card_game_server.Models;
 using card_game_server.Models.DTO_Models;
 using card_game_server.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -15,13 +16,15 @@ namespace card_game_server.Controllers
         private readonly IPlayersLogic _playersLogic;
         private readonly IGameLogic _gameLogic;
         private readonly GameData _gameData;
+        private readonly GameHub _gameHub;
 
-        public CardsGame(IDeckLogic deckLogic, IPlayersLogic playersLogic, IGameLogic gameLogic, GameData gameData)
+        public CardsGame(IDeckLogic deckLogic, IPlayersLogic playersLogic, IGameLogic gameLogic, GameData gameData, GameHub gameHub)
         {
             _deckLogic = deckLogic;
             _playersLogic = playersLogic;
             _gameLogic = gameLogic;
             _gameData = gameData;
+            _gameHub = gameHub;
         }
         //instead of creating gameData everytime make one instance and use him??
         //inject??
@@ -58,17 +61,21 @@ namespace card_game_server.Controllers
         public Card TakeCard() => _deckLogic.TakeCardFromDeck();
 
         [HttpPost]
-        public IActionResult CreateNewPlayer(string name)
+        public   IActionResult CreateNewPlayer(string name)
         {
             try
             {
                 var newPlayer = _playersLogic.CreatePlayer(name);
+                _gameHub.CreatePlayer(_playersLogic.GetAllPlayers());
+
+                _gameHub.SendMessage("Game", $"{name} has joined the game!");
+
                 return Ok(newPlayer);
             }
             catch (Exception)
             {
                 return BadRequest("somthing went wrong when creating new player");
-            }
+            } 
 
         }
 
@@ -81,6 +88,8 @@ namespace card_game_server.Controllers
             _playersLogic.AttackPlayer(playerId, card);
 
             var playerTurn = _gameLogic.ChangeTurn();
+
+            _gameLogic.CheckWinner();
 
             _gameLogic.fillGamedata(card, playerTurn, _playersLogic.GetAllPlayers());
 

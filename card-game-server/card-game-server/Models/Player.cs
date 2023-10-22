@@ -7,6 +7,7 @@
         public Dictionary<string, Card?> Hand { get; set; }
         public bool turn {get; set;}
         public bool isDead { get; set;}
+        public bool isWinner { get; set;}
 
         public Player(string name)
         {

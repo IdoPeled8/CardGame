@@ -4,8 +4,6 @@ import Package from "../components/Package";
 import { useDeckContext } from "../Contexts/DeckContext";
 import SimpleButton from "../components/ui/Button/SimpleButton";
 import {
-  deleteRemoveAllPlayers,
-  postCreateNewPlayer,
   putAttackPlayer,
   putChangeGuard,
 } from "../Services/AxiosCalls";
@@ -13,6 +11,7 @@ import { colors } from "../utils/Colors";
 import SimpleLink from "../components/ui/Link/SimpleLink";
 import Card from "../components/card/Card";
 import { useEffect, useState } from "react";
+
 
 const GamePage = () => {
   const {

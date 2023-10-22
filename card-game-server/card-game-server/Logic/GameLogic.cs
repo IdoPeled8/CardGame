@@ -5,7 +5,7 @@ using card_game_server.Repositories;
 
 namespace card_game_server.Logic
 {
-    public class GameLogic:IGameLogic
+    public class GameLogic : IGameLogic
     {
         private readonly SimpleData _simpleData;
         private readonly GameData _gameData;
@@ -25,6 +25,7 @@ namespace card_game_server.Logic
                 player.Hand[HandKeys.Guard] = new Card(null!, 0, "noHealth.png");
                 player.isDead = false;
                 player.turn = false;
+                player.isWinner = false;
             }
         }
         public List<Player> DealCards()
@@ -86,6 +87,19 @@ namespace card_game_server.Logic
             _gameData.cardTake = CurrentCard;
             _gameData.playerTurn = playerTurn;
             return _gameData;
+        }
+
+        public void CheckWinner()
+        {
+            var alivePlayers = _simpleData.Players.FindAll(p => p.isDead == false);
+
+            if (alivePlayers.Count == 1)
+            {
+                Console.WriteLine("game end");
+                var winnerIndex = _simpleData.Players.IndexOf(alivePlayers[0]);
+                _simpleData.Players[winnerIndex].isWinner = true;
+                Console.WriteLine($"{_simpleData.Players[winnerIndex].Name} won!");
+            }
         }
     }
 }

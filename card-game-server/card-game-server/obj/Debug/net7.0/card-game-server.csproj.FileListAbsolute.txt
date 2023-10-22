@@ -64,3 +64,7 @@ C:\Users\idop9\OneDrive\Desktop\My Projects\React-Card-Game\CardGame\card-game-s
 C:\Users\idop9\OneDrive\Desktop\My Projects\React-Card-Game\CardGame\card-game-server\card-game-server\obj\Debug\net7.0\card-game-server.pdb
 C:\Users\idop9\OneDrive\Desktop\My Projects\React-Card-Game\CardGame\card-game-server\card-game-server\obj\Debug\net7.0\card-game-server.genruntimeconfig.cache
 C:\Users\idop9\OneDrive\Desktop\My Projects\React-Card-Game\CardGame\card-game-server\card-game-server\obj\Debug\net7.0\ref\card-game-server.dll
+C:\Users\idop9\OneDrive\Desktop\My Projects\React-Card-Game\CardGame\card-game-server\card-game-server\bin\Debug\net7.0\Microsoft.AspNetCore.Connections.Abstractions.dll
+C:\Users\idop9\OneDrive\Desktop\My Projects\React-Card-Game\CardGame\card-game-server\card-game-server\bin\Debug\net7.0\Microsoft.AspNetCore.SignalR.Common.dll
+C:\Users\idop9\OneDrive\Desktop\My Projects\React-Card-Game\CardGame\card-game-server\card-game-server\bin\Debug\net7.0\Microsoft.Extensions.Features.dll
+C:\Users\idop9\OneDrive\Desktop\My Projects\React-Card-Game\CardGame\card-game-server\card-game-server\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
