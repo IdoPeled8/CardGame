@@ -16,7 +16,6 @@ namespace card_game_server.Controllers
         private readonly IPlayersLogic _playersLogic;
         private readonly IGameLogic _gameLogic;
         private readonly GameData _gameData;
-        private readonly GameHub _gameHub;
 
         public CardsGame(IDeckLogic deckLogic, IPlayersLogic playersLogic, IGameLogic gameLogic, GameData gameData, GameHub gameHub)
         {
@@ -24,105 +23,104 @@ namespace card_game_server.Controllers
             _playersLogic = playersLogic;
             _gameLogic = gameLogic;
             _gameData = gameData;
-            _gameHub = gameHub;
         }
         //instead of creating gameData everytime make one instance and use him??
         //inject??
        
-        [HttpGet]
-        public IActionResult StartGame()
-        {
-            _gameLogic.ClearPlayerData();
-            _deckLogic.CreateNewDeck();
+        //[HttpGet]
+        //public IActionResult StartGame()
+        //{
+        //    _gameLogic.ClearPlayerData();
+        //    _deckLogic.CreateNewDeck();
 
-            _deckLogic.ShuffleDeck();
+        //    _deckLogic.ShuffleDeck();
 
-            _gameLogic.DealCards();
-            var startPlayer = _gameLogic.WhoStart();
+        //    _gameLogic.DealCards();
+        //    var startPlayer = _gameLogic.WhoStart();
 
-           _gameLogic.fillGamedata(null!, startPlayer,_playersLogic.GetAllPlayers());
+        //   _gameLogic.fillGamedata(null!, startPlayer,_playersLogic.GetAllPlayers());
 
-            return Ok(_gameData);
-
-
-        } //if the code is testable this means hes good
-
-        [HttpGet]
-        public List<Card> ShuffleDeck()
-        {
-            //this is ok for now but in real i need to check what is the currect cards of the players and shuffle deck without this cards
-            _deckLogic.CreateNewDeck();
-            var deck = _deckLogic.ShuffleDeck();
-
-            return deck;
-        }
-
-        [HttpGet]
-        public Card TakeCard() => _deckLogic.TakeCardFromDeck();
-
-        [HttpPost]
-        public   IActionResult CreateNewPlayer(string name)
-        {
-            try
-            {
-                var newPlayer = _playersLogic.CreatePlayer(name);
-                _gameHub.CreatePlayer(_playersLogic.GetAllPlayers());
-
-                _gameHub.SendMessage("Game", $"{name} has joined the game!");
-
-                return Ok(newPlayer);
-            }
-            catch (Exception)
-            {
-                return BadRequest("somthing went wrong when creating new player");
-            } 
-
-        }
+        //    return Ok(_gameData);
 
 
-        [HttpPut("{playerId}")]
-        public IActionResult AttackPlayer(string playerId) 
-        {
-            var card = _deckLogic.TakeCardFromDeck();
+        //} //if the code is testable this means hes good
 
-            _playersLogic.AttackPlayer(playerId, card);
+        //[HttpGet]
+        //public List<Card> ShuffleDeck()
+        //{
+        //    //this is ok for now but in real i need to check what is the currect cards of the players and shuffle deck without this cards
+        //    _deckLogic.CreateNewDeck();
+        //    var deck = _deckLogic.ShuffleDeck();
 
-            var playerTurn = _gameLogic.ChangeTurn();
+        //    return deck;
+        //}
 
-            _gameLogic.CheckWinner();
+        //[HttpGet]
+        //public Card TakeCard() => _deckLogic.TakeCardFromDeck();
 
-            _gameLogic.fillGamedata(card, playerTurn, _playersLogic.GetAllPlayers());
+        //[HttpPost]
+        //public   IActionResult CreateNewPlayer(string name)
+        //{
+        //    try
+        //    {
+        //        var newPlayer = _playersLogic.CreatePlayer(name);
+        //        _gameHub.CreatePlayer(_playersLogic.GetAllPlayers());
 
-            return Ok(_gameData);
-        }
+        //        _gameHub.SendMessage("Game", $"{name} has joined the game!");
 
-        [HttpPut("{playerId}")]
-        public IActionResult ChangeGuard(string playerId)
-        {
-            var card = _deckLogic.TakeCardFromDeck();
+        //        return Ok(newPlayer);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return BadRequest("somthing went wrong when creating new player");
+        //    } 
 
-           _playersLogic.ChangeGuard(playerId, card);
+        //}
 
-            var playerTurn = _gameLogic.ChangeTurn();
 
-            _gameLogic.fillGamedata(card, playerTurn, _playersLogic.GetAllPlayers());
+        //[HttpPut("{playerId}")]
+        //public IActionResult AttackPlayer(string playerId) 
+        //{
+        //    var card = _deckLogic.TakeCardFromDeck();
+
+        //    _playersLogic.AttackPlayer(playerId, card);
+
+        //    var playerTurn = _gameLogic.ChangeTurn();
+
+        //    _gameLogic.CheckWinner();
+
+        //    _gameLogic.fillGamedata(card, playerTurn, _playersLogic.GetAllPlayers());
+
+        //    return Ok(_gameData);
+        //}
+
+        //[HttpPut("{playerId}")]
+        //public IActionResult ChangeGuard(string playerId)
+        //{
+        //    var card = _deckLogic.TakeCardFromDeck();
+
+        //   _playersLogic.ChangeGuard(playerId, card);
+
+        //    var playerTurn = _gameLogic.ChangeTurn();
+
+        //    _gameLogic.fillGamedata(card, playerTurn, _playersLogic.GetAllPlayers());
             
-            return Ok(_gameData);
-        }
+        //    return Ok(_gameData);
+        //}
 
-        [HttpDelete]
-        public IActionResult DeleteAllPlayers()
-        {
-            try
-            {
-                _playersLogic.RemoveAllPlayers();
-                return Ok();
-            }
-            catch (Exception)
-            {
-                return BadRequest("somthing went wrong when trying to remove all players");
-            }
-        }
+        //[HttpDelete]
+        //public IActionResult DeleteAllPlayers()
+        //{
+        //    try
+        //    {
+        //        _playersLogic.RemoveAllPlayers();
+        //        return Ok();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return BadRequest("somthing went wrong when trying to remove all players");
+        //    }
+        //}
 
         [HttpDelete("{id}")]
         public IActionResult DeletePlayerById(string id)
