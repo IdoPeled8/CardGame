@@ -21,13 +21,15 @@ const GamePage = () => {
     startNewGame,
     removeAllPlayers,
     afterMove,
+    connection,
   } = useDeckContext();
 
   const [winnerPlayer, setWinnerPlayer] = useState();
 
   const handleAttack = async (playerToAttack) => {
-    const data = await putAttackPlayer(playerToAttack);
-    afterMove(data);
+    connection.invoke("AttackPlayer", playerToAttack.id);
+    // const data = await putAttackPlayer(playerToAttack);
+    // afterMove(data);
   };
 
   const handleChangeGuard = async (playerToChange) => {
@@ -51,6 +53,7 @@ const GamePage = () => {
 
   return (
     <div className="game-page">
+      {console.log(players)}
       <div className="GameButtons">
       <SimpleButton color={colors.green} onClick={startNewGame}>
         Start new game

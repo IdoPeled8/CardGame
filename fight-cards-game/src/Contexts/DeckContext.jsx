@@ -12,37 +12,52 @@ export function DeckProvider({ children }) {
   const [players, setPlayers] = useState([]);
   const [currentCard, setCurrentCard] = useState({});
   const [playerTurn, setPlayerTurn] = useState("");
+  const [connection, setConnection] = useState(null);
 
-  useEffect(() => {
-    // Start the connection
-    const connection = new HubConnectionBuilder()
-      .withUrl("https://localhost:7129/gameHub")
-      .build();
+  //when all working add a chat for the game
 
-    connection
-      .start()
-      .then(() => console.log("Connected to SignalR"))
-      .catch((error) => console.error("Error connecting to SignalR", error));
+useEffect(() => {
+  // Create the SignalR connection when the component mounts
+  const newConnection = new HubConnectionBuilder()
+    .withUrl("https://localhost:7129/gameHub")
+    .build();
 
-    connection.on("ReceiveMessage", (user, message) => {
-      console.log(`${user}: ${message}`);
-      setMsg(message);
-    });
-    connection.on("GetAllPlayers", (allPlayers) => {
-      setPlayers(allPlayers);
-    });
+  // Start the connection
+  newConnection
+    .start()
+    .then(() => {
+      console.log("Connected to SignalR");
+      // Set the connection in state after it successfully starts
+      setConnection(newConnection);
+    })
+    .catch((error) => console.error("Error connecting to SignalR", error));
 
-    //Return a cleanup function to stop the connection when the component unmounts
-    return () => {
-      connection.stop();
-    };
-  }, []);
+    //LISTENERS
+  newConnection.on("ReceiveMessage", (message) => {
+    console.log(message);
+  });
 
+  newConnection.on("GetAllPlayers", (allPlayers) => {
+    console.log(allPlayers);
+    // Handle the list of players if needed
+  });
 
+  newConnection.on("AfterMoveUpdate", (gameData) => {
+    console.log(gameData);
+    afterMove(gameData);
+  })
+
+  // Return a cleanup function to stop the connection when the component unmounts
+  return () => {
+    if (newConnection && newConnection.state === "Connected") {
+      newConnection.stop();
+    }
+  };
+}, []);
 
   const onCreateNewPlayer = async (newPlayer) => {
-    await postCreateNewPlayer(newPlayer);
-    //setPlayers([...players, newPlayer]);
+    connection.invoke("CreatePlayer", newPlayer);
+    //for now i dont update the players list everytime only when start game is clicked
   };
 
   const startNewGame = async () => {
@@ -80,7 +95,7 @@ export function DeckProvider({ children }) {
         onCreateNewPlayer,
         removeAllPlayers,
         afterMove,
-        // connection,
+       connection,
       }}
     >
       {children}
