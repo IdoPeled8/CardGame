@@ -34,17 +34,25 @@ useEffect(() => {
 
     //LISTENERS
   newConnection.on("ReceiveMessage", (message) => {
-    console.log(message);
   });
 
   newConnection.on("GetAllPlayers", (allPlayers) => {
-    console.log(allPlayers);
     // Handle the list of players if needed
   });
 
+  newConnection.on("AllPlayersDeleted", (allPlayers) => {
+    console.log(allPlayers);
+    setPlayers([]);
+    setCurrentCard({});
+    setPlayerTurn("");
+  });
+
   newConnection.on("AfterMoveUpdate", (gameData) => {
-    console.log(gameData);
-    afterMove(gameData);
+    //afterMove(gameData);
+    setPlayers(gameData.players);
+    setCurrentCard(gameData.cardTake);
+    setPlayerTurn(gameData.playerTurn);
+    console.log("set data");
   })
 
   // Return a cleanup function to stop the connection when the component unmounts
@@ -55,16 +63,9 @@ useEffect(() => {
   };
 }, []);
 
-  const onCreateNewPlayer = async (newPlayer) => {
-    connection.invoke("CreatePlayer", newPlayer);
-    //for now i dont update the players list everytime only when start game is clicked
-  };
-
   const startNewGame = async () => {
     clearProps();
-    const data = await getStartGame();
-    setPlayers(data.players);
-    setPlayerTurn(data.playerTurn);
+    connection.invoke("StartGame");
   };
 
   const removeAllPlayers = async () => {
@@ -73,16 +74,11 @@ useEffect(() => {
     console.log("all players deleted");
   };
 
-  const afterMove = (data) => {
-    setPlayers(data.players);
-    setCurrentCard(data.cardTake);
-    setPlayerTurn(data.playerTurn);
-  };
-
   const clearProps = () => {
     setPlayers([]);
     setCurrentCard({});
     setPlayerTurn("");
+  console.log("clear props");
   };
 
   return (
@@ -92,9 +88,7 @@ useEffect(() => {
         playerTurn,
         players,
         startNewGame,
-        onCreateNewPlayer,
         removeAllPlayers,
-        afterMove,
        connection,
       }}
     >

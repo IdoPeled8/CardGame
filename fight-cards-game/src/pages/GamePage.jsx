@@ -20,31 +20,25 @@ const GamePage = () => {
     playerTurn,
     startNewGame,
     removeAllPlayers,
-    afterMove,
     connection,
   } = useDeckContext();
 
   const [winnerPlayer, setWinnerPlayer] = useState();
 
   const handleAttack = async (playerToAttack) => {
-    connection.invoke("AttackPlayer", playerToAttack.id);
-    // const data = await putAttackPlayer(playerToAttack);
-    // afterMove(data);
+    await connection.invoke("AttackPlayer", playerToAttack.id);
   };
 
   const handleChangeGuard = async (playerToChange) => {
-    const data = await putChangeGuard(playerToChange);
-    afterMove(data);
+   await connection.invoke("ChangeGuard", playerToChange.id);
   };
 
-  const onRemoveAllPlayers = () => {
-    removeAllPlayers();
-    window.navigator.reload();
+  const onRemoveAllPlayers = async() => {
+    await connection.invoke("DeleteAllPlayers");
   };
 
   const checkWinner = () => {
     setWinnerPlayer(players.find((player) => player.isWinner));
-    console.log(winnerPlayer);
   };
 
   useEffect(() => {
@@ -53,7 +47,6 @@ const GamePage = () => {
 
   return (
     <div className="game-page">
-      {console.log(players)}
       <div className="GameButtons">
       <SimpleButton color={colors.green} onClick={startNewGame}>
         Start new game
