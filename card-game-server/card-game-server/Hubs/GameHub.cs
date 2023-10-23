@@ -1,11 +1,8 @@
 ﻿using card_game_server.Models;
 using card_game_server.Models.DTO_Models;
 using card_game_server.Repositories;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using System.Numerics;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
+using System.Reflection;
 
 namespace card_game_server.Hubs
 {
@@ -35,11 +32,14 @@ namespace card_game_server.Hubs
 
             try
             {
-                var newPlayer = _playersLogic.CreatePlayer(name);
-
+                var newPlayer = _playersLogic.CreatePlayer(name,Context.ConnectionId);
+                Console.WriteLine(newPlayer.Id);
                 await Groups.AddToGroupAsync(Context.ConnectionId, "GameGroup");
 
                 await Clients.All.SendAsync($"GetAllPlayers", _playersLogic.GetAllPlayers());
+
+                var sender = _playersLogic.GetPlayerById(Context.ConnectionId);
+                await Clients.Caller.SendAsync("GetClientSender", sender);
 
                 //this is only for checks (dont really need it)
                 await SendMessage($"{name} has joined the game!");
@@ -51,17 +51,23 @@ namespace card_game_server.Hubs
             // await Clients.Group("GameGroup").SendAsync("PlayerJoined", player);
         }
 
-        public async Task AttackPlayer(string playerId)
+        public async Task AttackPlayer(string playerToAttackId, string playerTurnId)
         {
+            var check = _playersLogic.CheckAuthorization(playerTurnId, Context.ConnectionId);
+            if (check)
+            {
+                //throw new Exception("not this client turn");
+
             var card = _deckLogic.TakeCardFromDeck();
 
-            _playersLogic.AttackPlayer(playerId, card);
+            _playersLogic.AttackPlayer(playerToAttackId, card);
 
             var playerTurn = _gameLogic.ChangeTurn();
 
             _gameLogic.CheckWinner();
 
            await UpdateData(card,playerTurn);
+            }
 
         }
 
@@ -95,14 +101,7 @@ namespace card_game_server.Hubs
 
         } //if the code is testable this means hes good
 
-        public async Task UpdateData(Card card, Player playerTurn)
-        {
-            //change all to group
-            _gameLogic.fillGamedata(card, playerTurn, _playersLogic.GetAllPlayers());
-            await Clients.All.SendAsync("AfterMoveUpdate", _gameData);
-
-        }
-
+       
         public async Task DeleteAllPlayers()
         {
             try
@@ -115,6 +114,14 @@ namespace card_game_server.Hubs
                 throw new Exception("somthing went wrong when try to remove Players");
             }
         }
+        public async Task UpdateData(Card card, Player playerTurn)
+        {
+            //change all to group
+            _gameLogic.fillGamedata(card, playerTurn, _playersLogic.GetAllPlayers());
+            await Clients.All.SendAsync("AfterMoveUpdate", _gameData);
+
+        }
+
 
         public async Task SendMessageInGroup()
         {

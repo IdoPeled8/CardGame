@@ -19,7 +19,6 @@ const HomePage = () => {
       return;
     }
     connection.invoke("CreatePlayer", newPlayer);
-    setNewPlayer("");
 
     navigate("/gamePage");
   };

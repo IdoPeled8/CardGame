@@ -13,6 +13,7 @@ export function DeckProvider({ children }) {
   const [currentCard, setCurrentCard] = useState({});
   const [playerTurn, setPlayerTurn] = useState("");
   const [connection, setConnection] = useState(null);
+  const [client, setClient] = useState(null);
 
   //when all working add a chat for the game
 
@@ -39,6 +40,11 @@ useEffect(() => {
   newConnection.on("GetAllPlayers", (allPlayers) => {
     // Handle the list of players if needed
   });
+
+  newConnection.on("getClientSender", (player) => {
+    console.log(player);
+    setClient(player);
+  })
 
   newConnection.on("AllPlayersDeleted", (allPlayers) => {
     console.log(allPlayers);
@@ -81,6 +87,12 @@ useEffect(() => {
   console.log("clear props");
   };
 
+  const checkPlayerTurn = (player) => {
+    if (playerTurn.id != player.id) {
+      console.log("not your turn");
+    }
+  }
+
   return (
     <deckContext.Provider
       value={{
@@ -90,6 +102,7 @@ useEffect(() => {
         startNewGame,
         removeAllPlayers,
        connection,
+       client,
       }}
     >
       {children}

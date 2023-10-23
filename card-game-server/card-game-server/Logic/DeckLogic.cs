@@ -4,12 +4,15 @@ using card_game_server.Repositories;
 
 namespace card_game_server.Logic
 {
-    public static class HandKeys
+    public static class HandKeys //move to new class file
     {
         public static string Heart1 = "heart1";
         public static string Heart2 = "heart2";
         public static string Guard = "guard";
+        public static string Accumulate = "accumulate";
     }
+
+
     public class DeckLogic : IDeckLogic
     {
 

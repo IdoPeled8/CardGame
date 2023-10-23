@@ -16,13 +16,13 @@ namespace card_game_server.Logic
             _simpleData = simpleData;
             _deckLogic = deckLogic;
         }
-
-        public Player CreatePlayer(string name)
-        {
-            _simpleData.Players.Add(new Player(name));
-            return _simpleData.Players[_simpleData.Players.Count - 1];
-        }
         public List<Player> GetAllPlayers() => _simpleData.Players;
+
+        //public Player CreatePlayer(string name)
+        //{
+        //    _simpleData.Players.Add(new Player(name,null));
+        //    return _simpleData.Players[_simpleData.Players.Count - 1];
+        //}
         public Player FindPlayerById(string playerId)
         {
             var player = _simpleData.Players.FirstOrDefault(player => player.Id.ToString() == playerId);
@@ -32,6 +32,13 @@ namespace card_game_server.Logic
             }
             return player;
         }
+
+        public Player CreatePlayer(string name, string id)//try
+        {
+            _simpleData.Players.Add(new Player(name, id));
+            return _simpleData.Players[_simpleData.Players.Count - 1];
+        }
+
         public void RemoveAllPlayers() => _simpleData.Players.Clear();
         public void RemovePlayer(string id)
         {
@@ -96,6 +103,27 @@ namespace card_game_server.Logic
             _simpleData.Players[index].Hand[HandKeys.Guard] = card;
 
             return _simpleData.Players[index];
+        }
+
+        public bool CheckAuthorization(string playerTurnId ,string userId)
+        {
+            if (userId != playerTurnId)
+            {
+                Console.WriteLine("not client turn");
+                return false;
+            }
+            else
+            {
+                Console.WriteLine("client is player");
+                return true;
+            }
+
+        }
+
+        public Player GetPlayerById(string id)
+        {
+            var sender =_simpleData.Players.FirstOrDefault(player=> player.Id == id);
+            return sender;
         }
     }
 
