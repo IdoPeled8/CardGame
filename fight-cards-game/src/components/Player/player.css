@@ -6,6 +6,7 @@
       border: 2px solid #000;
       border-radius: 20px;
       box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.5);
+      background-color: darkgreen;
     }
     .players {
       display: flex;
@@ -17,13 +18,15 @@
     }
   
   .myTurn{
-    background-color: #050;
   }
 
   .dead{
     background-color: brown;
   }
 
+  .winner{
+    background-color: greenyellow;
+  }
  
   .playerName{
     display: flex;

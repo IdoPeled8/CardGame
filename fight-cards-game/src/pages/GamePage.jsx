@@ -4,14 +4,19 @@ import Package from "../components/Package";
 import { useDeckContext } from "../Contexts/DeckContext";
 import SimpleButton from "../components/ui/Button/SimpleButton";
 import {
-  deleteRemoveAllPlayers,
-  postCreateNewPlayer,
   putAttackPlayer,
   putChangeGuard,
 } from "../Services/AxiosCalls";
 import { colors } from "../utils/Colors";
 import SimpleLink from "../components/ui/Link/SimpleLink";
 import Card from "../components/card/Card";
+import { useEffect, useState } from "react";
+
+// TO DO
+// add save card for later attack logic
+// add visuals + looking + custom CSS
+// add a chat for the game
+
 
 const GamePage = () => {
   const {
@@ -20,34 +25,51 @@ const GamePage = () => {
     playerTurn,
     startNewGame,
     removeAllPlayers,
-    afterMove,
+    connection,
+    client,
+
   } = useDeckContext();
 
+  const [winnerPlayer, setWinnerPlayer] = useState();
+  
+  console.log(client);
+
   const handleAttack = async (playerToAttack) => {
-    const data = await putAttackPlayer(playerToAttack);
-    afterMove(data);
+    await connection.invoke("AttackPlayer", playerToAttack.id,playerTurn.id);
   };
 
   const handleChangeGuard = async (playerToChange) => {
-    const data = await putChangeGuard(playerToChange);
-    afterMove(data);
+   await connection.invoke("ChangeGuard", playerToChange.id);
   };
 
-  const onRemoveAllPlayers = () => {
-    removeAllPlayers();
-    window.navigator.reload();
+  const onRemoveAllPlayers = async() => {
+    await connection.invoke("DeleteAllPlayers");
   };
+
+  const checkWinner = () => {
+    setWinnerPlayer(players.find((player) => player.isWinner));
+  };
+
+  useEffect(() => {
+    checkWinner()
+  }, [handleAttack]);
 
   return (
     <div className="game-page">
-      <SimpleButton color={colors.white} onClick={startNewGame}>
+      <div className="GameButtons">
+      <SimpleButton color={colors.green} onClick={startNewGame}>
         Start new game
       </SimpleButton>
       <SimpleLink to="/">Back to home page</SimpleLink>
-      <SimpleButton color={colors.red} onClick={onRemoveAllPlayers}>
         Remove all Players
+      <SimpleButton color={colors.red} onClick={onRemoveAllPlayers}>
       </SimpleButton>
+      </div>
       <div className="someData">Turn: {playerTurn.name}</div>
+      <div className="someData">Player: {client?.name}</div>
+
+      <div className="someData"> {winnerPlayer != undefined && winnerPlayer.name + " is the winner"}</div>
+
       <div className="table">
         <div className="card-deck">
           {currentCard.value !== undefined && (

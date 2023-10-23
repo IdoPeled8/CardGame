@@ -22,4 +22,10 @@
   justify-content: center;
 }
 
+.someData {
+/* make the text big and bold */
+  font-size: 30px;
+  font-weight: bold;
+}
+
 

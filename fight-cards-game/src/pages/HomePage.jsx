@@ -1,35 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SimpleButton from "../components/ui/Button/SimpleButton";
 import { useDeckContext } from "../Contexts/DeckContext";
 import SimpleLink from "../components/ui/Link/SimpleLink";
 import { colors } from "../utils/Colors";
+import { HubConnectionBuilder } from "@microsoft/signalr";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
+  const navigate = useNavigate();
+
   const [newPlayer, setNewPlayer] = useState("");
 
-  const { onCreateNewPlayer, players } = useDeckContext();
+  const { players, connection } = useDeckContext();
 
-  const handleCreateNewPlayer = () => {
+  const handleCreateNewPlayer = async () => {
     if (newPlayer === "") {
-      console.log("please enter a name");
+      console.log("Please enter a name");
       return;
     }
-    onCreateNewPlayer(newPlayer);
-    setNewPlayer('');
+    connection.invoke("CreatePlayer", newPlayer);
+
+    navigate("/gamePage");
   };
 
   return (
     <div>
       <form onSubmit={(e) => e.preventDefault(handleCreateNewPlayer())}>
-        <input value={newPlayer} onChange={(e) => setNewPlayer(e.target.value)}></input>
-        <SimpleButton color={colors.green}>add Player</SimpleButton>
+        Enter Name:
+        <input
+          value={newPlayer}
+          onChange={(e) => setNewPlayer(e.target.value)}
+        ></input>
+        <SimpleButton color={colors.green}>Join table</SimpleButton>
       </form>
-      Players made:{players.length}
-      {players.length >= 2 && (
-        <SimpleLink color={colors.yellow} to="/gamePage">
-          Start Game
-        </SimpleLink>
-      )}
     </div>
   );
 };

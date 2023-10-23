@@ -1,22 +1,26 @@
-﻿namespace card_game_server.Models
+﻿using card_game_server.Logic;
+
+namespace card_game_server.Models
 {
     public class Player
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; } // was guid
         public string Name { get; set; }
-        public Dictionary<string, Card?> Hand { get; }
+        public Dictionary<string, Card?> Hand { get; set; }
         public bool turn {get; set;}
         public bool isDead { get; set;}
+        public bool isWinner { get; set;}
 
-        public Player(string name)
+        public Player(string name, string id)
         {
-            Id = Guid.NewGuid();
+            Id = id; //was new guid
             Name = name;
             Hand = new Dictionary<string, Card?>
             {
-                {"heart1",null },
-                {"heart2",null },
-                {"guard",null }
+                {HandKeys.Heart1,new Card(null!, 0, "noHealth.png") },
+                {HandKeys.Heart2, new Card(null!, 0, "noHealth.png") },
+                {HandKeys.Guard, new Card(null!, 0, "noHealth.png") },
+                {HandKeys.Accumulate, new Card(null!, 0,"noHealth.png") }
 
             };
 

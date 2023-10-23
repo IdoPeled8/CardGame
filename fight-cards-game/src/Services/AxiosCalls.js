@@ -36,6 +36,7 @@ export const putAttackPlayer = async (playerToAttack) => {
   const { data } = await axios.put(
     putAttackPlayerUrl + `/${playerToAttack.id}`
   );
+  console.log(data);
   return data;
 };
 

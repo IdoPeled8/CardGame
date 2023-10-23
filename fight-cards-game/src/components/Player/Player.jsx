@@ -5,7 +5,7 @@ import { useDeckContext } from "../../Contexts/DeckContext";
 import Card from "../card/Card";
 
 const Player = ({ player, handleAttack, handleChangeGuard }) => {
-  const { playerTurn } = useDeckContext();
+  const { playerTurn, client } = useDeckContext();
   const attack = () => {
     handleAttack(player);
   };
@@ -14,8 +14,14 @@ const Player = ({ player, handleAttack, handleChangeGuard }) => {
   };
 
   return (
-    <div className={"player" + (player.isDead ? " dead" : " ") + (playerTurn.id === player.id ? " myTurn" : " ")}>
-
+    <div
+      className={
+        "player" +
+        (player.isDead ? " dead" : " ") +
+        (playerTurn.id === player.id ? " myTurn" : " ") +
+        (player.isWinner ? " winner" : " ")
+      }
+    >
       <div className="playerName">{player.name}</div>
 
       {player.hand?.guard === undefined && <h4>Waiting Player</h4>}
@@ -23,28 +29,27 @@ const Player = ({ player, handleAttack, handleChangeGuard }) => {
       <br />
       <div className="card-container">
         {player.hand?.guard !== undefined && (
-          <Card imageName={player.hand?.guard.imageName}></Card>
+          <Card imageName={player.hand?.guard?.imageName}></Card>
         )}
       </div>
       {player.hand?.heart1 !== undefined && (
         <div className="card-container">
-          <Card imageName={player.hand?.heart1.imageName}></Card>
-          <Card imageName={player.hand?.heart2.imageName}></Card>
+          <Card imageName={player.hand?.heart1?.imageName}></Card>
+          <Card imageName={player.hand?.heart2?.imageName}></Card>
         </div>
       )}
-      {!player.isDead &&(
+      {!player.isDead && !player.isWinner && playerTurn.id === client.id && (
         <>
-          {playerTurn.id !== player.id && (
-            <SimpleButton color={colors.red} onClick={attack}>
-              Attack
-            </SimpleButton>
-          )}
-          {player.hand?.guard !== undefined &&
-          <SimpleButton color={colors.yellow} onClick={changeGuard}>
-            Change Guard
-          </SimpleButton>}
+        <SimpleButton color={colors.green} onClick={changeGuard}>
+          Change Guard
+        </SimpleButton>
+      {playerTurn.id !== player.id && (
+        <SimpleButton color={colors.red} onClick={attack}>
+        Attack
+        </SimpleButton>
+        )}
         </>
-      )}
+        )}
     </div>
   );
 };
