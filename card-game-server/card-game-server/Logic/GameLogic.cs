@@ -23,6 +23,7 @@ namespace card_game_server.Logic
                 player.Hand[HandKeys.Heart1] = new Card(null!, 0, "noHealth.png");
                 player.Hand[HandKeys.Heart2] = new Card(null!, 0, "noHealth.png");
                 player.Hand[HandKeys.Guard] = new Card(null!, 0, "noHealth.png");
+                player.Hand[HandKeys.Accumulate] = new Card(null!, 0, "noHealth.png");
                 player.isDead = false;
                 player.turn = false;
                 player.isWinner = false;

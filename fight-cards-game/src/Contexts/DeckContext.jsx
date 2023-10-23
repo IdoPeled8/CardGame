@@ -35,12 +35,9 @@ useEffect(() => {
 
     //LISTENERS
   newConnection.on("ReceiveMessage", (message) => {
+    console.log(message);
   });
-
-  newConnection.on("GetAllPlayers", (allPlayers) => {
-    // Handle the list of players if needed
-  });
-
+  
   newConnection.on("getClientSender", (player) => {
     console.log(player);
     setClient(player);
@@ -55,6 +52,7 @@ useEffect(() => {
 
   newConnection.on("AfterMoveUpdate", (gameData) => {
     //afterMove(gameData);
+    console.log(gameData);
     setPlayers(gameData.players);
     setCurrentCard(gameData.cardTake);
     setPlayerTurn(gameData.playerTurn);

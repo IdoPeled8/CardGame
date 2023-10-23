@@ -13,7 +13,7 @@ namespace card_game_server.Hubs
         private readonly IGameLogic _gameLogic;
         private readonly GameData _gameData;
 
-        public GameHub(IDeckLogic deckLogic, IPlayersLogic playersLogic, IGameLogic gameLogic,GameData gameData)
+        public GameHub(IDeckLogic deckLogic, IPlayersLogic playersLogic, IGameLogic gameLogic, GameData gameData)
         {
             _deckLogic = deckLogic;
             _playersLogic = playersLogic;
@@ -21,7 +21,9 @@ namespace card_game_server.Hubs
             _gameData = gameData;
         }
 
-        public async Task SendMessage( string message)
+        // make better implements for duplicate code
+
+        public async Task SendMessage(string message)
         {
             //this should be change to send message to the gorup
             await Clients.All.SendAsync("ReceiveMessage", message);
@@ -32,13 +34,12 @@ namespace card_game_server.Hubs
 
             try
             {
-                var newPlayer = _playersLogic.CreatePlayer(name,Context.ConnectionId);
-                Console.WriteLine(newPlayer.Id);
+                var newPlayer = _playersLogic.CreatePlayer(name, Context.ConnectionId);
+
                 await Groups.AddToGroupAsync(Context.ConnectionId, "GameGroup");
 
-                await Clients.All.SendAsync($"GetAllPlayers", _playersLogic.GetAllPlayers());
-
                 var sender = _playersLogic.GetPlayerById(Context.ConnectionId);
+
                 await Clients.Caller.SendAsync("GetClientSender", sender);
 
                 //this is only for checks (dont really need it)
@@ -51,41 +52,9 @@ namespace card_game_server.Hubs
             // await Clients.Group("GameGroup").SendAsync("PlayerJoined", player);
         }
 
-        public async Task AttackPlayer(string playerToAttackId, string playerTurnId)
-        {
-            var check = _playersLogic.CheckAuthorization(playerTurnId, Context.ConnectionId);
-            if (check)
-            {
-                //throw new Exception("not this client turn");
-
-            var card = _deckLogic.TakeCardFromDeck();
-
-            _playersLogic.AttackPlayer(playerToAttackId, card);
-
-            var playerTurn = _gameLogic.ChangeTurn();
-
-            _gameLogic.CheckWinner();
-
-           await UpdateData(card,playerTurn);
-            }
-
-        }
-
-        public async Task  ChangeGuard(string playerId)
-        {
-            var card = _deckLogic.TakeCardFromDeck();
-
-            _playersLogic.ChangeGuard(playerId, card);
-
-            var playerTurn = _gameLogic.ChangeTurn();
-
-            await UpdateData(card, playerTurn);
-        }
-
-
         public async Task StartGame()
         {
-            if(_playersLogic.GetAllPlayers().Count <= 1)
+            if (_playersLogic.GetAllPlayers().Count <= 1)
             {
                 throw new ArgumentException("you dont have enoght players to start the game");
             }
@@ -101,7 +70,49 @@ namespace card_game_server.Hubs
 
         } //if the code is testable this means hes good
 
-       
+        public async Task AttackPlayer(string playerToAttackId, string playerTurnId)
+        {
+            var check = _playersLogic.CheckAuthorization(playerTurnId, Context.ConnectionId);
+            if (check)
+            {
+                //throw new Exception("not this client turn");
+
+                var card = _deckLogic.TakeCardFromDeck();
+
+                _playersLogic.AttackPlayer(playerToAttackId, card);
+
+                var playerTurn = _gameLogic.ChangeTurn();
+
+                _gameLogic.CheckWinner();
+
+                await UpdateData(card, playerTurn);
+            }
+
+        }
+
+        public async Task ChangeGuard(string playerId)
+        {
+            var card = _deckLogic.TakeCardFromDeck();
+
+            _playersLogic.ChangeGuard(playerId, card);
+
+            var playerTurn = _gameLogic.ChangeTurn();
+
+            await UpdateData(card, playerTurn);
+        }
+
+        public async Task AccumulateCard(string accumulatePlayerId)
+        {
+            var card = _deckLogic.TakeCardFromDeck();
+
+            _playersLogic.AccumulateCard(accumulatePlayerId, card);
+            var playerTurn = _gameLogic.ChangeTurn();
+
+            await UpdateData(card, playerTurn);
+        }
+
+
+
         public async Task DeleteAllPlayers()
         {
             try
@@ -114,6 +125,8 @@ namespace card_game_server.Hubs
                 throw new Exception("somthing went wrong when try to remove Players");
             }
         }
+
+
         public async Task UpdateData(Card card, Player playerTurn)
         {
             //change all to group

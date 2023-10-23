@@ -105,7 +105,7 @@ namespace card_game_server.Logic
             return _simpleData.Players[index];
         }
 
-        public bool CheckAuthorization(string playerTurnId ,string userId)
+        public bool CheckAuthorization(string playerTurnId, string userId)
         {
             if (userId != playerTurnId)
             {
@@ -122,8 +122,32 @@ namespace card_game_server.Logic
 
         public Player GetPlayerById(string id)
         {
-            var sender =_simpleData.Players.FirstOrDefault(player=> player.Id == id);
+            // this method already exist so delete this when all working
+            var sender = _simpleData.Players.FirstOrDefault(player => player.Id == id);
             return sender;
+        }
+
+        public Player AccumulateCard(string accumulatePlayerId, Card card)
+        {
+            var accumulatePlayer = FindPlayerById(accumulatePlayerId);
+
+            if (accumulatePlayer.Hand[HandKeys.Accumulate].Value != 0)
+            {
+                Console.WriteLine("this player already have card");
+                return accumulatePlayer;
+                // dont need to send him
+            }
+            card.ImageName = "accumulate.jpg";
+            accumulatePlayer.Hand[HandKeys.Accumulate] = card;
+
+            var index = _simpleData.Players.FindIndex(player => player.Id == accumulatePlayer.Id);
+            _simpleData.Players[index] = accumulatePlayer;
+            return accumulatePlayer;
+
+            /* when accumulate card save the card value and shape but make the photo (accumulate)
+             * change in the attack logic - if the attacker have accumulate card check him to and use it if can
+             * change when attack you - if somone that got attacked have accumulate card, remove his accumulate
+             */
         }
     }
 

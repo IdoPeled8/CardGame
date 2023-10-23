@@ -11,6 +11,7 @@ namespace card_game_server.Repositories
         void RemovePlayer(string id);
         void RemoveAllPlayers();
         Player AttackPlayer(string playerToAttackId, Card attackCard);
+        Player AccumulateCard(string accumulatePlayer,Card card);
         Player ChangeGuard( string playerId, Card card);
         bool CheckAuthorization(string playerTurnId, string userId);
         Player GetPlayerById(string id);
