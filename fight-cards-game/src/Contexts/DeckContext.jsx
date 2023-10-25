@@ -14,58 +14,60 @@ export function DeckProvider({ children }) {
   const [playerTurn, setPlayerTurn] = useState("");
   const [connection, setConnection] = useState(null);
   const [client, setClient] = useState(null);
+  const [uiMessage, setUiMessage] = useState("");
 
   //when all working add a chat for the game
 
-useEffect(() => {
-  // Create the SignalR connection when the component mounts
-  const newConnection = new HubConnectionBuilder()
-    .withUrl("https://localhost:7129/gameHub")
-    .build();
+  useEffect(() => {
+    // Create the SignalR connection when the component mounts
+    const newConnection = new HubConnectionBuilder()
+      .withUrl("https://localhost:7129/gameHub")
+      .build();
 
-  // Start the connection
-  newConnection
-    .start()
-    .then(() => {
-      console.log("Connected to SignalR");
-      // Set the connection in state after it successfully starts
-      setConnection(newConnection);
-    })
-    .catch((error) => console.error("Error connecting to SignalR", error));
+    // Start the connection
+    newConnection
+      .start()
+      .then(() => {
+        console.log("Connected to SignalR");
+        // Set the connection in state after it successfully starts
+        setConnection(newConnection);
+      })
+      .catch((error) => console.error("Error connecting to SignalR", error));
 
     //LISTENERS
-  newConnection.on("ReceiveMessage", (message) => {
-    console.log(message);
-  });
-  
-  newConnection.on("getClientSender", (player) => {
-    console.log(player);
-    setClient(player);
-  })
+    newConnection.on("ReceiveMessage", (message) => {
+setUiMessage(message)
+    });
 
-  newConnection.on("AllPlayersDeleted", (allPlayers) => {
-    console.log(allPlayers);
-    setPlayers([]);
-    setCurrentCard({});
-    setPlayerTurn("");
-  });
+    newConnection.on("getClientSender", (player) => {
+      console.log(player);
+      setClient(player);
+    });
 
-  newConnection.on("AfterMoveUpdate", (gameData) => {
-    //afterMove(gameData);
-    console.log(gameData);
-    setPlayers(gameData.players);
-    setCurrentCard(gameData.cardTake);
-    setPlayerTurn(gameData.playerTurn);
-    console.log("set data");
-  })
+    newConnection.on("AllPlayersDeleted", (allPlayers) => {
+      console.log(allPlayers);
+      setPlayers([]);
+      setCurrentCard({});
+      setPlayerTurn("");
+    });
 
-  // Return a cleanup function to stop the connection when the component unmounts
-  return () => {
-    if (newConnection && newConnection.state === "Connected") {
-      newConnection.stop();
-    }
-  };
-}, []);
+    newConnection.on("AfterMoveUpdate", (gameData) => {
+      //afterMove(gameData);
+      console.log(gameData);
+      setPlayers(gameData.players);
+      setCurrentCard(gameData.cardTake);
+      setPlayerTurn(gameData.playerTurn);
+      //setUiMessage(...uiMessage, { cardUsed: gameData.cardTake });
+      console.log("set data");
+    });
+
+    // Return a cleanup function to stop the connection when the component unmounts
+    return () => {
+      if (newConnection && newConnection.state === "Connected") {
+        newConnection.stop();
+      }
+    };
+  }, []);
 
   const startNewGame = async () => {
     clearProps();
@@ -82,14 +84,14 @@ useEffect(() => {
     setPlayers([]);
     setCurrentCard({});
     setPlayerTurn("");
-  console.log("clear props");
+    console.log("clear props");
   };
 
   const checkPlayerTurn = (player) => {
     if (playerTurn.id != player.id) {
       console.log("not your turn");
     }
-  }
+  };
 
   return (
     <deckContext.Provider
@@ -99,8 +101,9 @@ useEffect(() => {
         players,
         startNewGame,
         removeAllPlayers,
-       connection,
-       client,
+        connection,
+        client,
+        uiMessage,
       }}
     >
       {children}

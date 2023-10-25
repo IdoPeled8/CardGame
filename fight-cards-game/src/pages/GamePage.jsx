@@ -27,10 +27,11 @@ const GamePage = () => {
     removeAllPlayers,
     connection,
     client,
+    uiMessage,
   } = useDeckContext();
 
   const [winnerPlayer, setWinnerPlayer] = useState();
-
+console.log(uiMessage);
   const handleAttack = async (playerToAttack) => {
     await connection.invoke("AttackPlayer", playerToAttack.id, playerTurn.id);
   };
@@ -68,14 +69,14 @@ const GamePage = () => {
           onClick={onRemoveAllPlayers}
         ></SimpleButton>
       </div>
-      <div className="someData">Turn: {playerTurn.name}</div>
-      <div className="someData">Player: {client?.name}</div>
+      <div className="playerName">Player: {client?.name}</div>
 
       <div className="someData">
         {" "}
         {winnerPlayer != undefined && winnerPlayer.name + " is the winner"}
       </div>
-
+          <div className="someData">Turn: {playerTurn.name}</div>
+          <div className="someData">{uiMessage}</div>
       <div className="table">
         <div className="card-deck">
           {currentCard.value !== undefined && (
