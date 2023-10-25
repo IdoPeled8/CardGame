@@ -21,6 +21,7 @@ namespace card_game_server.Hubs
             _gameData = gameData;
         }
 
+        //the context.id is not stable - need to change it to somthing better like identity\tokens or stuff like this
         // make better implements for duplicate code
 
         public async Task SendMessage(string message)
@@ -38,12 +39,11 @@ namespace card_game_server.Hubs
 
                 await Groups.AddToGroupAsync(Context.ConnectionId, "GameGroup");
 
-                var sender = _playersLogic.GetPlayerById(Context.ConnectionId);
+                var sender = _playersLogic.FindPlayerById(Context.ConnectionId);
 
                 await Clients.Caller.SendAsync("GetClientSender", sender);
 
-                //this is only for checks (dont really need it)
-                await SendMessage($"{name} has joined the game!");
+                await SendMessage($"{name} has joined the table!");
             }
             catch (Exception)
             {
@@ -56,59 +56,75 @@ namespace card_game_server.Hubs
         {
             if (_playersLogic.GetAllPlayers().Count <= 1)
             {
-                throw new ArgumentException("you dont have enoght players to start the game");
+                await Console.Out.WriteLineAsync("you dont have enoght players to start the game");
+                return;
             }
             _gameLogic.ClearPlayerData();
             _deckLogic.CreateNewDeck();
-
             _deckLogic.ShuffleDeck();
-
             _gameLogic.DealCards();
             var startPlayer = _gameLogic.WhoStart();
 
+            await SendMessage($"game started!!");
             await UpdateData(new Card(null!, 0, "noHealth.png"), startPlayer);
 
         } //if the code is testable this means hes good
 
-        public async Task AttackPlayer(string playerToAttackId, string playerTurnId)
-        {
-            var check = _playersLogic.CheckAuthorization(playerTurnId, Context.ConnectionId);
-            if (check)
-            {
-                //throw new Exception("not this client turn");
 
+        //there is a bugggg
+        public async Task AttackPlayer(string playerToAttackId, string currentPlayerTurnId)
+        {
+            //do this for all methods and also dont send the id to the logic just send the player
+            var currentPlayerTurn = _playersLogic.FindPlayerById(Context.ConnectionId);
+            if (currentPlayerTurn != null)
+            {
                 var card = _deckLogic.TakeCardFromDeck();
 
-                _playersLogic.AttackPlayer(playerToAttackId, card);
+                //i can send the attacker directly and not the id and serch again inside the logic
+                var playerToAttack = _playersLogic.AttackPlayer(playerToAttackId, card, currentPlayerTurn);
 
-                var playerTurn = _gameLogic.ChangeTurn();
+                //need to add here the accumulate card if have
+                await SendMessage($"{currentPlayerTurn.Name} just attacked {playerToAttack.Name} with:{card.Value}");
+
+                var NewplayerTurn = _gameLogic.ChangeTurn();
 
                 _gameLogic.CheckWinner();
 
-                await UpdateData(card, playerTurn);
+                await UpdateData(card, NewplayerTurn);
             }
 
         }
 
         public async Task ChangeGuard(string playerId)
         {
-            var card = _deckLogic.TakeCardFromDeck();
+            var currentPlayerTurn = _playersLogic.FindPlayerById(Context.ConnectionId);
+            if (currentPlayerTurn != null)
+            {
+                var card = _deckLogic.TakeCardFromDeck();
 
-            _playersLogic.ChangeGuard(playerId, card);
+                var playerToChange = _playersLogic.ChangeGuard(playerId, card);
 
-            var playerTurn = _gameLogic.ChangeTurn();
+                var NewPlayerTurn = _gameLogic.ChangeTurn();
 
-            await UpdateData(card, playerTurn);
+                await SendMessage($"{currentPlayerTurn.Name} just change guard to {playerToChange.Name} with:{card.Value}");
+                await UpdateData(card, NewPlayerTurn);
+            }
         }
 
         public async Task AccumulateCard(string accumulatePlayerId)
         {
-            var card = _deckLogic.TakeCardFromDeck();
+            var currentPlayerTurn = _playersLogic.FindPlayerById(Context.ConnectionId);
+            if (currentPlayerTurn != null)
+            {
+                var card = _deckLogic.TakeCardFromDeck();
 
-            _playersLogic.AccumulateCard(accumulatePlayerId, card);
-            var playerTurn = _gameLogic.ChangeTurn();
+                _playersLogic.AccumulateCard(currentPlayerTurn, card);
 
-            await UpdateData(card, playerTurn);
+                var NewPlayerTurn = _gameLogic.ChangeTurn();
+
+                await SendMessage($"{currentPlayerTurn.Name} just accumulate :|");
+                await UpdateData(card, NewPlayerTurn);
+            }
         }
 
 
@@ -129,6 +145,7 @@ namespace card_game_server.Hubs
 
         public async Task UpdateData(Card card, Player playerTurn)
         {
+            await Console.Out.WriteLineAsync(Context.ConnectionId);
             //change all to group
             _gameLogic.fillGamedata(card, playerTurn, _playersLogic.GetAllPlayers());
             await Clients.All.SendAsync("AfterMoveUpdate", _gameData);
