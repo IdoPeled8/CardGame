@@ -16,9 +16,10 @@
       grid-row: 1 / -1; /* Span all rows */
       justify-content: space-around; /* Distribute players around the table */
     }
-  
-  .myTurn{
-  }
+    
+    .myTurn{
+    }
+    
 
   .dead{
     background-color: brown;
@@ -37,4 +38,11 @@
   
     .player-columns{
       display:flex;
+    }
+
+    .playerName{
+      background-color: aliceblue;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 25px;
     }

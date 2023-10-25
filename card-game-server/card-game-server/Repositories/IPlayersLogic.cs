@@ -6,13 +6,12 @@ namespace card_game_server.Repositories
     {
         List<Player> GetAllPlayers();
         Player FindPlayerById(string playerId);
-       // Player CreatePlayer(string name);
         Player CreatePlayer(string name, string id);//try
         void RemovePlayer(string id);
         void RemoveAllPlayers();
-        Player AttackPlayer(string playerToAttackId, Card attackCard);
+        Player AttackPlayer(string playerToAttackId, Card attackCard,Player currentPlayerTurn);
+        Player AccumulateCard(Player accumulatePlayer,Card card);
         Player ChangeGuard( string playerId, Card card);
         bool CheckAuthorization(string playerTurnId, string userId);
-        Player GetPlayerById(string id);
     }
 }

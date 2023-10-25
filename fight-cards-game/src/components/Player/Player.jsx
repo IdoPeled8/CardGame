@@ -4,7 +4,7 @@ import { colors } from "../../utils/Colors";
 import { useDeckContext } from "../../Contexts/DeckContext";
 import Card from "../card/Card";
 
-const Player = ({ player, handleAttack, handleChangeGuard }) => {
+const Player = ({ player, handleAttack, handleChangeGuard, handleAccumulate }) => {
   const { playerTurn, client } = useDeckContext();
   const attack = () => {
     handleAttack(player);
@@ -12,6 +12,9 @@ const Player = ({ player, handleAttack, handleChangeGuard }) => {
   const changeGuard = () => {
     handleChangeGuard(player);
   };
+  const accumulate = () => {
+    handleAccumulate(player);
+  }
 
   return (
     <div
@@ -28,16 +31,13 @@ const Player = ({ player, handleAttack, handleChangeGuard }) => {
 
       <br />
       <div className="card-container">
-        {player.hand?.guard !== undefined && (
           <Card imageName={player.hand?.guard?.imageName}></Card>
-        )}
       </div>
-      {player.hand?.heart1 !== undefined && (
         <div className="card-container">
           <Card imageName={player.hand?.heart1?.imageName}></Card>
           <Card imageName={player.hand?.heart2?.imageName}></Card>
+          <Card imageName={player.hand.accumulate?.imageName}></Card>
         </div>
-      )}
       {!player.isDead && !player.isWinner && playerTurn.id === client.id && (
         <>
         <SimpleButton color={colors.green} onClick={changeGuard}>
@@ -46,6 +46,11 @@ const Player = ({ player, handleAttack, handleChangeGuard }) => {
       {playerTurn.id !== player.id && (
         <SimpleButton color={colors.red} onClick={attack}>
         Attack
+        </SimpleButton>
+        )}
+        {playerTurn.id === player.id && (
+        <SimpleButton color={colors.yellow} onClick={accumulate}>
+          Accumulate
         </SimpleButton>
         )}
         </>
