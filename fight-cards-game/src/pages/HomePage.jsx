@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import SimpleButton from "../components/ui/Button/SimpleButton";
 import { useDeckContext } from "../Contexts/DeckContext";
-import SimpleLink from "../components/ui/Link/SimpleLink";
 import { colors } from "../utils/Colors";
-import { HubConnectionBuilder } from "@microsoft/signalr";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {

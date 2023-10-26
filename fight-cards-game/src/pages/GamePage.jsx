@@ -1,9 +1,7 @@
 import Player from "../components/Player/Player";
 import Package from "../components/Package";
-//import { onChangeGuard } from "../utils/PlayerMoves";
 import { useDeckContext } from "../Contexts/DeckContext";
 import SimpleButton from "../components/ui/Button/SimpleButton";
-import { putAttackPlayer, putChangeGuard } from "../Services/AxiosCalls";
 import { colors } from "../utils/Colors";
 import SimpleLink from "../components/ui/Link/SimpleLink";
 import Card from "../components/card/Card";

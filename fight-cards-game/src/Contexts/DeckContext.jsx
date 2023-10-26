@@ -1,7 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import {
-  getStartGame,
-  postCreateNewPlayer,
   deleteRemoveAllPlayers,
 } from "../Services/AxiosCalls";
 import { HubConnectionBuilder } from "@microsoft/signalr";
