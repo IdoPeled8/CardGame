@@ -6,17 +6,16 @@ import {
 } from "../Services/AxiosCalls";
 import { HubConnectionBuilder } from "@microsoft/signalr";
 
-const deckContext = createContext();
+const gameContext = createContext();
 
-export function DeckProvider({ children }) {
+export function GameProvider({ children }) {
   const [players, setPlayers] = useState([]);
   const [currentCard, setCurrentCard] = useState({});
   const [playerTurn, setPlayerTurn] = useState("");
   const [connection, setConnection] = useState(null);
   const [client, setClient] = useState(null);
   const [uiMessage, setUiMessage] = useState("");
-
-  //when all working add a chat for the game
+  const [winnerPlayer, setWinnerPlayer] = useState();
 
   useEffect(() => {
     // Create the SignalR connection when the component mounts
@@ -29,14 +28,13 @@ export function DeckProvider({ children }) {
       .start()
       .then(() => {
         console.log("Connected to SignalR");
-        // Set the connection in state after it successfully starts
         setConnection(newConnection);
       })
       .catch((error) => console.error("Error connecting to SignalR", error));
 
     //LISTENERS
     newConnection.on("ReceiveMessage", (message) => {
-setUiMessage(message)
+      setUiMessage(message);
     });
 
     newConnection.on("getClientSender", (player) => {
@@ -52,12 +50,11 @@ setUiMessage(message)
     });
 
     newConnection.on("AfterMoveUpdate", (gameData) => {
-      //afterMove(gameData);
       console.log(gameData);
       setPlayers(gameData.players);
       setCurrentCard(gameData.cardTake);
       setPlayerTurn(gameData.playerTurn);
-      //setUiMessage(...uiMessage, { cardUsed: gameData.cardTake });
+      checkWinner();
       console.log("set data");
     });
 
@@ -69,17 +66,6 @@ setUiMessage(message)
     };
   }, []);
 
-  const startNewGame = async () => {
-    clearProps();
-    connection.invoke("StartGame");
-  };
-
-  const removeAllPlayers = async () => {
-    await deleteRemoveAllPlayers();
-    clearProps();
-    console.log("all players deleted");
-  };
-
   const clearProps = () => {
     setPlayers([]);
     setCurrentCard({});
@@ -87,30 +73,29 @@ setUiMessage(message)
     console.log("clear props");
   };
 
-  const checkPlayerTurn = (player) => {
-    if (playerTurn.id != player.id) {
-      console.log("not your turn");
-    }
+  //move to logic
+  const checkWinner = () => {
+    setWinnerPlayer(players.find((player) => player.isWinner));
   };
 
   return (
-    <deckContext.Provider
+    <gameContext.Provider
       value={{
         currentCard,
         playerTurn,
         players,
-        startNewGame,
-        removeAllPlayers,
         connection,
         client,
         uiMessage,
+        winnerPlayer,
+        clearProps,
       }}
     >
       {children}
-    </deckContext.Provider>
+    </gameContext.Provider>
   );
 }
 
-export const useDeckContext = () => {
-  return useContext(deckContext);
+export const useGameContext = () => {
+  return useContext(gameContext);
 };

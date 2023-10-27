@@ -1,11 +1,13 @@
-import { Link, Route, Routes } from 'react-router-dom'
-import './App.css'
-import './components/Player/Player.css'
-import './components/Card/Card.css'
-import { DeckProvider } from './Contexts/DeckContext'
+import { Route, Routes } from 'react-router-dom'
+
+import { GameProvider } from './Contexts/GameContext'
 import GamePage from './pages/GamePage'
 import HomePage from './pages/HomePage'
 import SimpleLink from './components/ui/Link/SimpleLink';
+import BasicExample from './components/NavBar'
+import './components/Card/Card.css'
+import './App.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 function App() {
@@ -14,12 +16,14 @@ function App() {
     <>
     <nav>
       <div>
+        <BasicExample/>
+
         <SimpleLink to={'/'}>Home</SimpleLink>
         <SimpleLink className='btn btn-info link'  to='/rules'>rules</SimpleLink>
       </div>
       <br/>
     </nav>
-    <DeckProvider>
+    <GameProvider>
     <Routes>
       <Route path='/' element={<HomePage />}/>
       <Route path='/gamePage' element={<GamePage />}/>
@@ -27,7 +31,7 @@ function App() {
       {/* if nothing mathches this route will catch */}
       <Route path='*' element={<h1>Not Found</h1>}/>
     </Routes>
-    </DeckProvider>
+    </GameProvider>
     </>
   )
 }
