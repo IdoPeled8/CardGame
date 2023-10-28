@@ -2,7 +2,6 @@ import Package from "../components/Package";
 import GamePlayers from "../components/GameBoard/GamePlayers";
 import GameActions from "../components/GameBoard/GameActions";
 import GameInfo from "../components/GameBoard/GameInfo";
-import BasicExample from "../components/NavBar";
 
 // TO DO
 // add save card for later attack logic

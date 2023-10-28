@@ -70,7 +70,7 @@
         {
             //do this for all methods and also dont send the id to the logic just send the player
             var currentPlayerTurn = _playersLogic.FindPlayerById(Context.ConnectionId);
-            if (currentPlayerTurn != null)
+            if (currentPlayerTurn.Id == _gameData.playerTurn!.Id)
             {
                 var card = _deckLogic.TakeCardFromDeck();
 
@@ -92,13 +92,15 @@
 
                 await UpdateData(card, NewplayerTurn);
             }
+            else
+                await Console.Out.WriteLineAsync("not player turn attack");
 
         }
 
         public async Task ChangeGuard(string playerId)
         {
             var currentPlayerTurn = _playersLogic.FindPlayerById(Context.ConnectionId);
-            if (currentPlayerTurn != null)
+            if (currentPlayerTurn.Id == _gameData.playerTurn!.Id)
             {
                 var card = _deckLogic.TakeCardFromDeck();
 
@@ -109,12 +111,14 @@
                 await SendMessage($"{currentPlayerTurn.Name} just change guard to {playerToChange.Name} with:{card.Value}");
                 await UpdateData(card, NewPlayerTurn);
             }
+            else
+                await Console.Out.WriteLineAsync("not player turn change Guard");
         }
 
         public async Task AccumulateCard(string accumulatePlayerId)
         {
             var currentPlayerTurn = _playersLogic.FindPlayerById(Context.ConnectionId);
-            if (currentPlayerTurn != null)
+            if (currentPlayerTurn.Id == _gameData.playerTurn!.Id)
             {
                 var card = _deckLogic.TakeCardFromDeck();
 
@@ -125,6 +129,8 @@
                 await SendMessage($"{currentPlayerTurn.Name} just accumulate :|");
                 await UpdateData(card, NewPlayerTurn);
             }
+            else
+                await Console.Out.WriteLineAsync("not player turn accumulate");
         }
 
 

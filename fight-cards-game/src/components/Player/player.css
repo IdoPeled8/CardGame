@@ -1,48 +1,82 @@
-    
-    .player{
-      margin: 20px;
-      width: 300px;
-      height: 300px;
-      border: 2px solid #000;
-      border-radius: 20px;
-      box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.5);
-      background-color: darkgreen;
-    }
-    .players {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      grid-column: 1 / -1; /* Span all columns */
-      grid-row: 1 / -1; /* Span all rows */
-      justify-content: space-around; /* Distribute players around the table */
-    }
-    
-    .myTurn{
-    }
-    
+/* .player:hover {
+  cursor: pointer;
+  background-color: red;
+} */
 
-  .dead{
-    background-color: brown;
-  }
+.guard:hover {
+  cursor: pointer;
+  background-color: blue;
+}
 
-  .winner{
-    background-color: greenyellow;
-  }
- 
-  .playerName{
-    display: flex;
-    justify-content: center;
-    font-size: 20px;
-    font-weight: bold;
-    }
+.health:hover {
+  cursor: pointer;
+  background-color: red;
+}
+
+.accumulate:hover {
+  cursor: pointer;
+  background-color: yellow;
+}
+
+.guard {
+  background-color: #007bff;
+}
   
-    .player-columns{
-      display:flex;
-    }
+.health {
+  background-color:chartreuse;
+}
 
-    .playerName{
-      background-color: aliceblue;
-      border-radius: 10px;
-      font-weight: bold;
-      font-size: 25px;
-    }
+.accumulate {
+  background-color:darkgoldenrod;
+}
+
+.player {
+  margin: 20px;
+  width: 300px;
+  height: 300px;
+  border: 10px solid #000;
+  border-radius: 20px;
+  box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.5);
+  background-color: darkgreen;
+}
+.players {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  grid-column: 1 / -1; /* Span all columns */
+  grid-row: 1 / -1; /* Span all rows */
+  justify-content: space-around; /* Distribute players around the table */
+}
+
+.myPlayer {
+  background-color: aqua;
+}
+.myTurn {
+  border-color: greenyellow;
+}
+
+.dead {
+  background-color: brown;
+}
+
+.winner {
+  background-color: greenyellow;
+}
+
+.playerName {
+  display: flex;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.player-columns {
+  display: flex;
+}
+
+.playerName {
+  background-color: aliceblue;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 25px;
+}

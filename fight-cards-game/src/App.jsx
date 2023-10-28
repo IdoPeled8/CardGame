@@ -1,23 +1,29 @@
 import { Route, Routes } from 'react-router-dom'
-
 import { GameProvider } from './Contexts/GameContext'
 import GamePage from './pages/GamePage'
 import HomePage from './pages/HomePage'
 import SimpleLink from './components/ui/Link/SimpleLink';
-import BasicExample from './components/NavBar'
 import './components/Card/Card.css'
 import './App.css'
+import './components/Buttons.css'
+
+import { PrimeReactProvider, PrimeReactContext } from 'primereact/api';
+        
+//theme
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+        
+import BasicDemo from './components/NavBar';
+        
 
 
 function App() {
 
   return (
     <>
+    <PrimeReactProvider>
     <nav>
       <div>
-        <BasicExample/>
-
-        <SimpleLink to={'/'}>Home</SimpleLink>
+        <SimpleLink className="myBtn2" to={'/'}>Home</SimpleLink>
         <SimpleLink className='btn btn-info link'  to='/rules'>rules</SimpleLink>
       </div>
       <br/>
@@ -31,6 +37,7 @@ function App() {
       <Route path='*' element={<h1>Not Found</h1>}/>
     </Routes>
     </GameProvider>
+    </PrimeReactProvider>
     </>
   )
 }

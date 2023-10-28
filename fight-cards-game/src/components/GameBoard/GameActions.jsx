@@ -10,13 +10,13 @@ const GameActions = () => {
 
   return (
     <div className="GameButtons">
-      <button className={colors.green} onClick={startNewGame}>
+      <button className="simpleBtn color-green" onClick={startNewGame}>
         Start new game
       </button>
-      <Link to="/" className={colors.lightBlue}>
+      <Link to="/" className="simpleBtn color-lightBlue">
         Back to home page
       </Link>
-      <button className={colors.red} onClick={onRemoveAllPlayers}>
+      <button className="simpleBtn color-red" onClick={onRemoveAllPlayers}>
         Remove all Players
       </button>
     </div>

@@ -1,7 +1,5 @@
 import React, {useState } from "react";
-import SimpleButton from "../components/ui/Button/SimpleButton";
 import { useGameContext } from "../Contexts/GameContext";
-import { colors } from "../utils/Colors";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
@@ -29,7 +27,7 @@ const HomePage = () => {
           value={newPlayer}
           onChange={(e) => setNewPlayer(e.target.value)}
         ></input>
-        <button className="btn btn-primary">Join table</button>
+        <button className="simpleBtn color-lightBlue">Join table</button>
       </form>
     </div>
   );
