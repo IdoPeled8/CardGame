@@ -1,0 +1,11 @@
+﻿global using card_game_server.Data;
+global using card_game_server.Models;
+global using card_game_server.Repositories;
+global using card_game_server.Hubs;
+global using card_game_server.Models.DTO_Models;
+global using Microsoft.AspNetCore.Mvc;
+global using card_game_server.Logic;
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.AspNetCore.SignalR;
+global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

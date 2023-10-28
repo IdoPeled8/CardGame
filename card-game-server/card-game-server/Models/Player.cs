@@ -1,5 +1,4 @@
-﻿using card_game_server.Logic;
-
+﻿
 namespace card_game_server.Models
 {
     public class Player
