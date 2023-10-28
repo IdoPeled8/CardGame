@@ -1,6 +1,4 @@
-﻿using card_game_server.Models;
-
-namespace card_game_server.Repositories
+﻿namespace card_game_server.Repositories
 {
     public interface IPlayersLogic
     {

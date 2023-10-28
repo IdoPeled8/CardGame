@@ -1,9 +1,4 @@
-﻿using card_game_server.Data;
-using card_game_server.Models;
-using card_game_server.Models.DTO_Models;
-using card_game_server.Repositories;
-
-namespace card_game_server.Logic
+﻿namespace card_game_server.Logic
 {
     public class GameLogic : IGameLogic
     {
@@ -20,10 +15,10 @@ namespace card_game_server.Logic
         {
             foreach (var player in _simpleData.Players)
             {
-                player.Hand[HandKeys.Heart1] = new Card(null!, 0, "noHealth.png");
-                player.Hand[HandKeys.Heart2] = new Card(null!, 0, "noHealth.png");
-                player.Hand[HandKeys.Guard] = new Card(null!, 0, "noHealth.png");
-                player.Hand[HandKeys.Accumulate] = new Card(null!, 0, "noHealth.png");
+                player.Hand[HandKeys.Heart1] = Helper.ZeroCard;
+                player.Hand[HandKeys.Heart2] = Helper.ZeroCard;
+                player.Hand[HandKeys.Guard] = Helper.ZeroCard;
+                player.Hand[HandKeys.Accumulate] = Helper.ZeroCard  ;
                 player.isDead = false;
                 player.turn = false;
                 player.isWinner = false;

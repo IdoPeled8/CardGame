@@ -1,5 +1,4 @@
-﻿
-namespace card_game_server.Models
+﻿namespace card_game_server.Models
 {
     public class Player
     {

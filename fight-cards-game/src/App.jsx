@@ -7,7 +7,6 @@ import SimpleLink from './components/ui/Link/SimpleLink';
 import BasicExample from './components/NavBar'
 import './components/Card/Card.css'
 import './App.css'
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 function App() {
