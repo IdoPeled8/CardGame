@@ -12,21 +12,13 @@ const PlayerHand = ({ player }) => {
     <div>
       <div className="card-container ">
         <button
-          className="card-container guard "
-          onClick={() => handleChangeGuard(player)}
-          disabled={
-            player.isDead || player.isWinner || playerTurn.id !== client.id
-          }
-        >
-          <Card imageName={player.hand?.guard?.imageName}></Card>
-        </button>
-      </div>
-      <div className="card-container ">
-        <button
           className="card-container health color-lightGreen"
           onClick={() => handleAttack(player)}
           disabled={
-            player.isDead || player.isWinner || playerTurn.id === player.id || playerTurn.id !== client.id
+            player.isDead ||
+            player.isWinner ||
+            playerTurn.id === player.id ||
+            playerTurn.id !== client.id
           }
         >
           <Card imageName={player.hand?.heart1?.imageName}></Card>
@@ -36,10 +28,24 @@ const PlayerHand = ({ player }) => {
           className="card-container accumulate"
           onClick={() => handleAccumulate(player)}
           disabled={
-            player.isDead || player.isWinner || playerTurn.id !== player.id || playerTurn.id !== client.id
+            player.isDead ||
+            player.isWinner ||
+            playerTurn.id !== player.id ||
+            playerTurn.id !== client.id
           }
         >
           <Card imageName={player.hand.accumulate?.imageName}></Card>
+        </button>
+      </div>
+      <div className="card-container ">
+        <button
+          className="card-container guard "
+          onClick={() => handleChangeGuard(player)}
+          disabled={
+            player.isDead || player.isWinner || playerTurn.id !== client.id
+          }
+        >
+          <Card imageName={player.hand?.guard?.imageName}></Card>
         </button>
       </div>
     </div>

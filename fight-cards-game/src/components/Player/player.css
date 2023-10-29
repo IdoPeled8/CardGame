@@ -51,9 +51,7 @@
 .myPlayer {
   background-color: aqua;
 }
-.myTurn {
-  border-color: greenyellow;
-}
+
 
 .dead {
   background-color: brown;
@@ -70,6 +68,8 @@
   font-weight: bold;
 }
 
+
+
 .player-columns {
   display: flex;
 }
@@ -79,4 +79,8 @@
   border-radius: 10px;
   font-weight: bold;
   font-size: 25px;
+}
+
+.player-turn {
+  background-color:#007bff;
 }

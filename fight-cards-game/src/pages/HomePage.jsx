@@ -1,4 +1,4 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 import { useGameContext } from "../Contexts/GameContext";
 import { useNavigate } from "react-router-dom";
 
@@ -29,6 +29,7 @@ const HomePage = () => {
         ></input>
         <button className="simpleBtn color-lightBlue">Join table</button>
       </form>
+     
     </div>
   );
 };
