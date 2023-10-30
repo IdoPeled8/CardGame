@@ -1,7 +1,9 @@
 import Package from "../components/Package";
+
 import GamePlayers from "../components/GameBoard/GamePlayers";
 import GameActions from "../components/GameBoard/GameActions";
 import GameInfo from "../components/GameBoard/GameInfo";
+
 
 // TO DO
 //if already accumulate dont let it
