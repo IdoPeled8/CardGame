@@ -1,7 +1,4 @@
 import React from "react";
-import SimpleButton from "../ui/Button/SimpleButton";
-import SimpleLink from "../ui/Link/SimpleLink";
-import { colors } from "../../utils/Colors";
 import { useGameActions } from "../../Hooks/UseGameActions";
 import { Link } from "react-router-dom";
 

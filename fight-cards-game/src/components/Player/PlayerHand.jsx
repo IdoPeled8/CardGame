@@ -9,10 +9,10 @@ const PlayerHand = ({ player }) => {
 
   const { playerTurn, client } = useGameContext();
   return (
-    <div>
+    <>
       <div className="card-container ">
         <button
-          className="card-container health color-lightGreen"
+          className="card-container health"
           onClick={() => handleAttack(player)}
           disabled={
             player.isDead ||
@@ -25,7 +25,7 @@ const PlayerHand = ({ player }) => {
           <Card imageName={player.hand?.heart2?.imageName}></Card>
         </button>
         <button
-          className="card-container accumulate"
+          className="accumulate"
           onClick={() => handleAccumulate(player)}
           disabled={
             player.isDead ||
@@ -48,7 +48,7 @@ const PlayerHand = ({ player }) => {
           <Card imageName={player.hand?.guard?.imageName}></Card>
         </button>
       </div>
-    </div>
+    </>
   );
 };
 

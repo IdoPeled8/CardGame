@@ -17,7 +17,7 @@ const GamePage = () => {
   return (
     <div className="game-page">
       <GameActions></GameActions>
-      <GameInfo></GameInfo>
+      {/* <GameInfo></GameInfo> */}
       <GamePlayers></GamePlayers>
     </div>
   );

@@ -4,9 +4,10 @@ import { useGameContext } from "../../Contexts/GameContext";
 import Card from "../card/Card";
 import PlayerHand from "../Player/PlayerHand";
 import Package from "../Package";
+import "./GameBoard.css";
 
 const GamePlayers = () => {
-  const { players } = useGameContext();
+  const { players, playerTurn } = useGameContext();
 
   return (
     <div className="vue-container">
@@ -16,12 +17,18 @@ const GamePlayers = () => {
         </div>
         <div className="players2">
           {players.map((player, index) => (
-            <div key={index} className={`playerr player-${index + 1} `}>
-              <Player player={player}></Player>
-              {/* <div className="bank"></div>
+            <div
+              key={index}
+              className={`playerr player-${index + 1} ${
+                playerTurn.id === player.id ? "playing player-turn" : ""
+              } `}
+            >
+              {/* <Player player={player}></Player> */}
               <div className="avatar"></div>
               <div className="name">{player.name}</div>
-            <PlayerHand player={player}></PlayerHand> */}
+              <div className="">
+                <PlayerHand player={player}></PlayerHand>
+              </div>
             </div>
           ))}
         </div>
