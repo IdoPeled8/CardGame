@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-fight-cards-game/src/Contexts/GameContext.jsx
 import { HubConnectionBuilder } from "@microsoft/signalr";
 
 const gameContext = createContext();
