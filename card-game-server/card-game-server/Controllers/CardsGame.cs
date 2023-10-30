@@ -1,9 +1,4 @@
-﻿using card_game_server.Hubs;
-using card_game_server.Models;
-using card_game_server.Models.DTO_Models;
-using card_game_server.Repositories;
-using Microsoft.AspNetCore.Mvc;
-
+﻿
 
 namespace card_game_server.Controllers
 {

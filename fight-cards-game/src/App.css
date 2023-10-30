@@ -5,9 +5,7 @@
   align-items: center;
 }
 
-
-
-.table {
+.oldTable {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* Adjust the number of columns as needed */
   grid-template-rows: repeat(3, 1fr); /* Adjust the number of rows as needed */

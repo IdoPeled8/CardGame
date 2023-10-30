@@ -1,7 +1,7 @@
-import React, {  useState } from "react";
-import SimpleButton from "../components/ui/Button/SimpleButton";
-import { useDeckContext } from "../Contexts/DeckContext";
-import { colors } from "../utils/Colors";
+
+import React, { useState } from "react";
+import { useGameContext } from "../Contexts/GameContext";
+
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
@@ -9,7 +9,7 @@ const HomePage = () => {
 
   const [newPlayer, setNewPlayer] = useState("");
 
-  const { players, connection } = useDeckContext();
+  const { connection } = useGameContext();
 
   const handleCreateNewPlayer = async () => {
     if (newPlayer === "") {
@@ -29,8 +29,9 @@ const HomePage = () => {
           value={newPlayer}
           onChange={(e) => setNewPlayer(e.target.value)}
         ></input>
-        <SimpleButton color={colors.green}>Join table</SimpleButton>
+        <button className="simpleBtn color-lightBlue">Join table</button>
       </form>
+     
     </div>
   );
 };

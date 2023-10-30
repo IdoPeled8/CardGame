@@ -1,10 +1,4 @@
-﻿using card_game_server.Models;
-using card_game_server.Models.DTO_Models;
-using card_game_server.Repositories;
-using Microsoft.AspNetCore.SignalR;
-using System.Reflection;
-
-namespace card_game_server.Hubs
+﻿namespace card_game_server.Hubs
 {
     public class GameHub : Hub
     {
@@ -66,7 +60,7 @@ namespace card_game_server.Hubs
             var startPlayer = _gameLogic.WhoStart();
 
             await SendMessage($"game started!!");
-            await UpdateData(new Card(null!, 0, "noHealth.png"), startPlayer);
+            await UpdateData(Helper.ZeroCard, startPlayer);
 
         } //if the code is testable this means hes good
 
@@ -76,15 +70,21 @@ namespace card_game_server.Hubs
         {
             //do this for all methods and also dont send the id to the logic just send the player
             var currentPlayerTurn = _playersLogic.FindPlayerById(Context.ConnectionId);
-            if (currentPlayerTurn != null)
+            if (currentPlayerTurn.Id == _gameData.playerTurn!.Id)
             {
                 var card = _deckLogic.TakeCardFromDeck();
+
+                if (currentPlayerTurn.Hand[HandKeys.Accumulate]!.Value != 0)
+                {
+                    Helper.AccumulateMSG = $"and with accumulate: {currentPlayerTurn.Hand[HandKeys.Accumulate]!.Value}";
+                }
 
                 //i can send the attacker directly and not the id and serch again inside the logic
                 var playerToAttack = _playersLogic.AttackPlayer(playerToAttackId, card, currentPlayerTurn);
 
                 //need to add here the accumulate card if have
-                await SendMessage($"{currentPlayerTurn.Name} just attacked {playerToAttack.Name} with:{card.Value}");
+                await SendMessage($"{currentPlayerTurn.Name} just attacked {playerToAttack.Name} with:{card.Value} {Helper.AccumulateMSG}");
+                Helper.AccumulateMSG = "";
 
                 var NewplayerTurn = _gameLogic.ChangeTurn();
 
@@ -92,13 +92,15 @@ namespace card_game_server.Hubs
 
                 await UpdateData(card, NewplayerTurn);
             }
+            else
+                await Console.Out.WriteLineAsync("not player turn attack");
 
         }
 
         public async Task ChangeGuard(string playerId)
         {
             var currentPlayerTurn = _playersLogic.FindPlayerById(Context.ConnectionId);
-            if (currentPlayerTurn != null)
+            if (currentPlayerTurn.Id == _gameData.playerTurn!.Id)
             {
                 var card = _deckLogic.TakeCardFromDeck();
 
@@ -109,12 +111,14 @@ namespace card_game_server.Hubs
                 await SendMessage($"{currentPlayerTurn.Name} just change guard to {playerToChange.Name} with:{card.Value}");
                 await UpdateData(card, NewPlayerTurn);
             }
+            else
+                await Console.Out.WriteLineAsync("not player turn change Guard");
         }
 
         public async Task AccumulateCard(string accumulatePlayerId)
         {
             var currentPlayerTurn = _playersLogic.FindPlayerById(Context.ConnectionId);
-            if (currentPlayerTurn != null)
+            if (currentPlayerTurn.Id == _gameData.playerTurn!.Id)
             {
                 var card = _deckLogic.TakeCardFromDeck();
 
@@ -125,6 +129,8 @@ namespace card_game_server.Hubs
                 await SendMessage($"{currentPlayerTurn.Name} just accumulate :|");
                 await UpdateData(card, NewPlayerTurn);
             }
+            else
+                await Console.Out.WriteLineAsync("not player turn accumulate");
         }
 
 

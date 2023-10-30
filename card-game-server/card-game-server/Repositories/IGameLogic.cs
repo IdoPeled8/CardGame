@@ -1,7 +1,4 @@
-﻿using card_game_server.Models;
-using card_game_server.Models.DTO_Models;
-
-namespace card_game_server.Repositories
+﻿namespace card_game_server.Repositories
 {
     public interface IGameLogic
     {

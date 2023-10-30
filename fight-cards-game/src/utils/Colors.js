@@ -1,13 +1,12 @@
-import './bootstrapBtn.css';
 
 export const colors = {
-  blue: 'btn primary',
-  grey: 'btn secondary',
-  green: 'btn success',
-  lightBlue: 'btn info',
-  yellow: 'btn warning',
-  red: 'btn danger',
-  white: 'btn light',
-  black: 'btn dark',
-  link: 'btn link',
+  blue: 'btn btn-primary',
+  grey: 'btn btn-secondary',
+  green: 'btn btn-success',
+  lightBlue: 'btn btn-info',
+  yellow: 'btn btn-warning',
+  red: 'btn btn-danger',
+  white: 'btn btn-light',
+  black: 'btn btn-dark',
+  link: 'btn btn-link',
 }

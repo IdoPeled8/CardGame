@@ -1,8 +1,4 @@
-﻿using card_game_server.Data;
-using card_game_server.Models;
-using card_game_server.Repositories;
-
-namespace card_game_server.Logic
+﻿namespace card_game_server.Logic
 {
 
     //fix all this duplicate new card
@@ -62,7 +58,7 @@ namespace card_game_server.Logic
                 {
                     Console.WriteLine("enemy guard is higher");
                     //fix this duplicate
-                    attacker.Hand[HandKeys.Accumulate] = new Card(null!, 0, "noHealth.png");
+                    attacker.Hand[HandKeys.Accumulate] = Helper.ZeroCard;
                     var index = _simpleData.Players.FindIndex(player => player.Id == attacker.Id);
                     _simpleData.Players[index] = attacker;
                     return playerToAttack;
@@ -74,15 +70,15 @@ namespace card_game_server.Logic
 
             if (totalHealth <= 0)
             {
-                playerToAttack.Hand[HandKeys.Heart1] = new Card(null!, 0, "noHealth.png");
-                playerToAttack.Hand[HandKeys.Heart2] = new Card(null!, 0, "noHealth.png");
-                playerToAttack.Hand[HandKeys.Guard] = new Card(null!, 0, "noHealth.png");
+                playerToAttack.Hand[HandKeys.Heart1] = Helper.ZeroCard;
+                playerToAttack.Hand[HandKeys.Heart2] = Helper.ZeroCard;
+                playerToAttack.Hand[HandKeys.Guard] = Helper.ZeroCard;
                 playerToAttack.isDead = true;
             }
             else if (totalHealth <= 13)
             {
                 playerToAttack.Hand[HandKeys.Heart1] = _deckLogic.FindCardByValue(totalHealth);
-                playerToAttack.Hand[HandKeys.Heart2] = new Card(null!, 0, "noHealth.png");
+                playerToAttack.Hand[HandKeys.Heart2] = Helper.ZeroCard;
             }
             else
             {
@@ -91,8 +87,8 @@ namespace card_game_server.Logic
                 playerToAttack.Hand[HandKeys.Heart2] = _deckLogic.FindCardByValue(totalHealth);
             }
 
-            playerToAttack.Hand[HandKeys.Accumulate] = new Card(null!, 0, "noHealth.png");
-            attacker.Hand[HandKeys.Accumulate] = new Card(null!, 0, "noHealth.png");
+            playerToAttack.Hand[HandKeys.Accumulate] = Helper.ZeroCard;
+            attacker.Hand[HandKeys.Accumulate] = Helper.ZeroCard;
 
             var indexToAttack = _simpleData.Players.FindIndex(player => player.Id == playerToAttack.Id);
             var indexAttacker = _simpleData.Players.FindIndex(player => player.Id == attacker.Id);
