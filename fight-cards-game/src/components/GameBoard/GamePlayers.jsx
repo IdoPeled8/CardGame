@@ -21,7 +21,6 @@ const GamePlayers = () => {
                 playerTurn.id === player.id ? "playing" : ""
               } `}
               >
-              {/* <Player player={player}></Player> */}
               <div className="avatar"></div>
               <div className="name">{player.name}</div>
               <div className="">
