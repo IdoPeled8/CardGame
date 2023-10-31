@@ -2,7 +2,7 @@ import {BrowserRouter, Route, Routes } from 'react-router-dom'
 import { GameProvider } from './Contexts/GameContext'
 import GamePage from './pages/GamePage'
 import HomePage from './pages/HomePage'
-import './components/Card/card.css'
+// import './components/Card/card.css'
 import './App.css'
 import './components/Buttons.css'
 import NavBar from './NavBar/NavBar';

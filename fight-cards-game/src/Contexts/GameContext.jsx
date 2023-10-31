@@ -16,7 +16,9 @@ export function GameProvider({ children }) {
     // Create the SignalR connection when the component mounts
     const newConnection = new HubConnectionBuilder()
       .withUrl("https://localhost:7129/gameHub")
+      // .withUrl("process.env.REACT_APP_HUB_URL")
       .build();
+
 
     // Start the connection
     newConnection
