@@ -16,17 +16,19 @@ const GamePlayers = () => {
         <div className="players2">
           {players.map((player, index) => (
             <div
-              key={index}
-              className={`playerr player-${index + 1} ${
-                playerTurn.id === player.id ? "playing player-turn" : ""
+            key={index}
+            className={`playerr player-${index + 1} ${
+                playerTurn.id === player.id ? "playing" : ""
               } `}
-            >
+              >
               {/* <Player player={player}></Player> */}
               <div className="avatar"></div>
               <div className="name">{player.name}</div>
               <div className="">
                 <PlayerHand player={player}></PlayerHand>
               </div>
+                <br/>
+              <br/>
             </div>
           ))}
         </div>
