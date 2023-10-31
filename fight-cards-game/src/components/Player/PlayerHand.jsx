@@ -2,6 +2,7 @@ import React from "react";
 import Card from "../card/Card";
 import { useGameActions } from "../../Hooks/UseGameActions";
 import { useGameContext } from "../../Contexts/GameContext";
+import "./player.css"
 
 const PlayerHand = ({ player }) => {
   const { handleAttack, handleChangeGuard, handleAccumulate } =
