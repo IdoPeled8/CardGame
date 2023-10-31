@@ -1,10 +1,8 @@
 import React from "react";
-import Player from "../Player/Player";
 import { useGameContext } from "../../Contexts/GameContext";
-import Card from "../card/Card";
 import PlayerHand from "../Player/PlayerHand";
 import Package from "../Package";
-import "./GameBoard.css";
+import "./GameBoardStyle.css";
 
 const GamePlayers = () => {
   const { players, playerTurn } = useGameContext();
