@@ -1,6 +1,7 @@
 import React from 'react';
 import Card from './card/Card';
 import { useGameContext } from '../Contexts/GameContext';
+import { cardImagePath } from '../utils/PhotosPath';
 
 const Package = () => {
 
@@ -9,7 +10,7 @@ const Package = () => {
   return (
     <div className="card-deck">
         {currentCard.value !== undefined && (
-            <Card imageName={currentCard.imageName} />
+            <Card imageName={cardImagePath + currentCard.imageName} />
           )}
     </div>
   );

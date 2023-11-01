@@ -1,0 +1,1 @@
+export const cardImagePath = "../../../public/cards deck photos/"

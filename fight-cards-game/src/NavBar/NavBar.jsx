@@ -35,6 +35,17 @@ function NavBar() {
             <li className="nav-item">
               <NavLink
                 exact
+                to="/gamePage"
+                activeClassName="active"
+                className="nav-links"
+                onClick={handleClick}
+              >
+                back to table
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink
+                exact
                 to="/login"
                 activeClassName="active"
                 className="nav-links"

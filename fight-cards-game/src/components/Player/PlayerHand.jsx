@@ -3,7 +3,7 @@ import Card from "../card/Card";
 import { useGameActions } from "../../Hooks/UseGameActions";
 import { useGameContext } from "../../Contexts/GameContext";
 import "./player.css"
-
+import { cardImagePath } from "../../utils/PhotosPath";
 const PlayerHand = ({ player }) => {
   const { handleAttack, handleChangeGuard, handleAccumulate } =
     useGameActions();
@@ -11,6 +11,7 @@ const PlayerHand = ({ player }) => {
   const { playerTurn, client } = useGameContext();
   return (
     <>
+    {console.log("../../../public/cards deck photos/"+ player.hand?.heart1?.imageName)}
       <div className="card-container ">
         <button
           className="card-container health"
@@ -22,8 +23,8 @@ const PlayerHand = ({ player }) => {
             playerTurn.id !== client.id
           }
         >
-          <Card imageName={player.hand?.heart1?.imageName}></Card>
-          <Card imageName={player.hand?.heart2?.imageName}></Card>
+          <Card imageName={cardImagePath + player.hand?.heart1?.imageName}></Card>
+          <Card imageName={cardImagePath + player.hand?.heart2?.imageName}></Card>
         </button>
         <button
           className="accumulate"
@@ -35,7 +36,7 @@ const PlayerHand = ({ player }) => {
             playerTurn.id !== client.id
           }
         >
-          <Card imageName={player.hand.accumulate?.imageName}></Card>
+          <Card imageName={cardImagePath + player.hand.accumulate?.imageName}></Card>
         </button>
       </div>
       <div className="card-container ">
@@ -46,7 +47,7 @@ const PlayerHand = ({ player }) => {
             player.isDead || player.isWinner || playerTurn.id !== client.id
           }
         >
-          <Card imageName={player.hand?.guard?.imageName}></Card>
+          <Card imageName={cardImagePath + player.hand?.guard?.imageName}></Card>
         </button>
       </div>
     </>
