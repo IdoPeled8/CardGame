@@ -5,14 +5,54 @@
   align-items: left;
 }
 
-/* .card-deck {
-  grid-column: 2 / 3; 
-  grid-row: 2 / 3; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-} */
+/* ---------------------------------------------------------------------- */
+/* BTN CSS */
 
+.simpleBtn {
+  align-items: center;
+  appearance: none;
+  background-color: #FCFCFD;
+  border-radius: 4px;
+  border-width: 0;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset;
+  box-sizing: border-box;
+  color: #36395A;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: "JetBrains Mono",monospace;
+  height: 38px;
+  justify-content: center;
+  line-height: 1;
+  list-style: none;
+  overflow: hidden;
+  padding-left: 16px;
+  padding-right: 16px;
+  position: relative;
+  text-align: left;
+  text-decoration: none;
+  transition: box-shadow .15s,transform .15s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  will-change: box-shadow,transform;
+  font-size: 14px;
+  margin: 5px;
+}
+
+.simpleBtn:focus {
+  box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+}
+
+.simpleBtn:hover {
+  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+  transform: translateY(-2px);
+}
+
+.simpleBtn:active {
+  box-shadow: #D6D6E7 0 3px 7px inset;
+  transform: translateY(2px);
+}
 
 /* CARD CSS */
 .card-container{
@@ -248,9 +288,6 @@
 
 /* ----------------------------------------------------------------------- */
 /* CSS for smaller screens */
-
-/* CSS for larger screens remains the same as in the previous response */
-
 /* Media query for smaller screens */
 @media (max-width: 900px) {
   /* Adjust styles for smaller screens here */
@@ -261,10 +298,55 @@
     justify-content: center;
   }
 
+  .vue-container {
+    width: 100vw;
+    height: 100vh;
+  }
+  
+  .table {
+    width: 60%;
+    height: 50%;
+    background-color: #4aad4a;
+    position: absolute;
+    left: 50%;
+    top:50%;
+    transform: translateX(-50%) translateY(-50%);
+    border-radius: 90px;
+    border: 8px solid #a95555;
+  }
+  
+  .table::before {
+    content: '';
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    display: block;
+    width: 99%;
+    height: 100%;
+    border-radius: 90px;
+    position: absolute;
+  }
+  
+  .table::after {
+    content: '';
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 90px;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
   .card2-place {
     /* Adjust styles for smaller screens here */
-    height: 70px;
+    height: 140px;
     width: 70px;
+    position: absolute;
+    border-radius: 5px;
+    padding: 12px;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
   }
 
   .players2 {
@@ -278,7 +360,7 @@
   }
 
   .playerr .avatar {
-    width: 50px;
+    width: 90px;
     height: 50px;
   }
 
@@ -289,9 +371,28 @@
   .playerr .name {
     /* Adjust styles for smaller screens here */
     width: 100px;
+    height: 30px;
     margin: 0;
+    font-size: 15px;
+  }
+  .nameAvatar {
+    width: auto;
+    display: flex;
+    align-items: center;
   }
 
+  .playerr.playing:before {
+    content: '...playing';
+    color: white;
+    font-size: 15px;
+    background-color: #76daff;
+    display: inline-block;
+    line-height: 0;
+    height: 10px;
+    padding: 10px 10px 2px 2px;
+    border-radius: 5px;
+    z-index: 100;
+  }
 
   .card{
     margin: 2px;
@@ -302,5 +403,37 @@
     box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.5);
   }
   
-  /* Define additional responsive styles as needed */
+  /* btn css phone */
+  .simpleBtn {
+    align-items: center;
+    appearance: none;
+    background-color: #FCFCFD;
+    border-radius: 4px;
+    border-width: 0;
+    box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset;
+    box-sizing: border-box;
+    color: #36395A;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: "JetBrains Mono",monospace;
+    height: 25px;
+    justify-content: center;
+    line-height: 1;
+    list-style: none;
+    overflow: hidden;
+    padding-left: 4px;
+    padding-right: 4px;
+    position: relative;
+    text-align: left;
+    text-decoration: none;
+    transition: box-shadow .15s,transform .15s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    will-change: box-shadow,transform;
+    font-size: 10px;
+    margin: 4px;
+  }
+  
 }
