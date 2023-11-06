@@ -7,7 +7,7 @@ const GameInfo = () => {
 
   return (
     <div className="clientInfo">
-      <div className="playerName">Player: {client?.name}</div>
+      <div className="playerName">Your Name: {client?.name}</div>
 
       <div className="someData">
         {" "}

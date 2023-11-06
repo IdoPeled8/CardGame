@@ -1,12 +1,12 @@
 import { useGameContext } from "../Contexts/GameContext";
 
-export const useGameActions = () => {
-  
 
+export const useGameActions = () => {
   const {
     playerTurn,
     connection,
     clearProps,
+    setCardAnimation
   } = useGameContext();
   
   const startNewGame = async () => {
@@ -14,8 +14,17 @@ export const useGameActions = () => {
     connection.invoke("StartGame");
   };
   
+
+
+  
   const handleAttack = async (playerToAttack) => {
     await connection.invoke("AttackPlayer", playerToAttack.id, playerTurn.id);
+   
+    setCardAnimation("moveForwardToPlayer1");
+
+    setTimeout(() => {
+      setCardAnimation("");
+    }, 3000); // Adjust the delay to match your animation duration
   };
   
   const handleChangeGuard = async (playerToChange) => {

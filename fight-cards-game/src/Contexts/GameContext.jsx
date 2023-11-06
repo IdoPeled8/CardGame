@@ -11,11 +11,13 @@ export function GameProvider({ children }) {
   const [client, setClient] = useState(null);
   const [uiMessage, setUiMessage] = useState("");
   const [winnerPlayer, setWinnerPlayer] = useState();
+  //const [targetPlayer, setTargetPlayer] = useState(null);
+  const [cardAnimation, setCardAnimation] = useState("");
+
 
   useEffect(() => {
     // Create the SignalR connection when the component mounts
     const newConnection = new HubConnectionBuilder()
-      // .withUrl("https://localhost:7129/gameHub")
       .withUrl("https://cardGameServer.bsite.net/gameHub")
       .build();
 
@@ -86,6 +88,8 @@ export function GameProvider({ children }) {
         uiMessage,
         winnerPlayer,
         clearProps,
+        cardAnimation,
+        setCardAnimation
       }}
     >
       {children}

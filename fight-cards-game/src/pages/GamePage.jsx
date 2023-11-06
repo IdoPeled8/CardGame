@@ -1,5 +1,6 @@
 import GamePlayers from "../components/GameBoard/GamePlayers";
 import GameActions from "../components/GameBoard/GameActions";
+import GameInfo from "../components/GameBoard/GameInfo";
 
 // TO DO
 // make authorization for admins to delete players and more...
@@ -19,7 +20,7 @@ const GamePage = () => {
   return (
     <div className="game-page">
       <GameActions></GameActions>
-      {/* <GameInfo></GameInfo> */}
+      
       <GamePlayers></GamePlayers>
     </div>
   );

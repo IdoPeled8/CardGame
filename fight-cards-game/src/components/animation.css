@@ -1,0 +1,32 @@
+
+.card-animation {
+  animation-duration: 3s; /* Set the animation duration as needed */
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes moveForwardToPlayer1 {
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+  100% {
+    transform: translateX(0) translateY(-200px);
+  }
+}
+
+@keyframes moveForwardToPlayer2 {
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+  100% {
+    transform:translateY(300px);
+  }
+}
+
+.moveForwardToPlayer1 {
+  animation-name: moveForwardToPlayer1;
+}
+
+.moveForwardToPlayer2 {
+  animation-name: moveForwardToPlayer2;
+}

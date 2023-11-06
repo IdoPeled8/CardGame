@@ -1,16 +1,10 @@
-import React from 'react';
-import Card from './card/Card';
-import { useGameContext } from '../Contexts/GameContext';
+import React from "react";
+import Card from "./card/Card";
 
 const Package = () => {
-
-  const { currentCard } = useGameContext();
-  
   return (
     <div className="card-deck">
-        {currentCard.value !== undefined && (
-            <Card imageName={currentCard.imageName} />
-          )}
+      <Card imageName="accumulate.jpg" />
     </div>
   );
 };

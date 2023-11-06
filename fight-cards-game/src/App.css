@@ -5,6 +5,60 @@
   align-items: left;
 }
 
+.clientInfo{
+  flex-direction: column;
+  font-size: 20px;
+  padding: 5px;
+  font-weight: bold;
+
+}
+
+.someData{
+    display: flex;
+    justify-content: center;
+    font-size: 25px;
+    border-radius: 10px;
+    margin: 10px 0px 0px 0px;
+    background-color:#96e296;
+    border:#a95555 solid 3px;
+}
+
+.playerName{
+  display: flex;
+  justify-content: center;
+  font-size: 25px;
+  border-radius: 10px;
+  margin: 10px;
+  background-color:#D6D6E7;
+}
+.flipCard{
+  /* background-image: "../public/static/cards-deck-photos/accumulate.jpg"; */
+  background-color: #000;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 300px;
+  width: 300px;
+  perspective: 1000px;
+}
+
+.instructionBox {
+  font-family: "Houschka Rounded";
+  text-align: center;
+  color: yellow;
+  padding: 5px 0;
+  margin-left: 10px;
+  box-sizing: border-box;
+  border: 3px solid #96e296;
+  border-radius: 5px;
+  margin-top: 15px;
+  text-overflow: ellipsis;
+  font-size: 21px;
+  font-weight: bold;
+  overflow: hidden;
+  position: relative;
+  transform: rotate(180deg);
+}
 /* ---------------------------------------------------------------------- */
 /* BTN CSS */
 
@@ -69,16 +123,17 @@
   box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.5);
 }
 
+
 /* --------------------------------------------------- */
 
 /* GAME BOARD AND PLAYERS CSS */
 .vue-container {
   width: 100vw;
-  height: 120vh;
+  height: 100vh;
 }
 
 .table {
-  width: 80%;
+  width: 75%;
   height: 60%;
   background-color: #4aad4a;
   position: absolute;
@@ -114,16 +169,21 @@
 
 /* DECK PLACE CSS */
 .card2-place {
+  display: flex;
   border: 5px solid #63c763;
-  height: 100px;
-  width: 100px;
+  height: 150px;
+  width: 450px;
   position: absolute;
   border-radius: 10px;
-  padding: 10px;
+  padding: 15px;
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
-  box-sizing: border-box;
+  align-items: center;
+}
+
+.data{
+  margin: 10px;
 }
 
 /* PLAYERS CSS */
@@ -165,7 +225,7 @@
 .playerr .name {
   font-family: "Houschka Rounded";
   text-align: center;
-  width: auto;
+  width: 100px;
   color: #96e296;
   padding: 5px 0;
   margin-left: 10px;
@@ -180,42 +240,68 @@
   position: relative;
 }
 
+.nameAvatar {
+  width: auto;
+  display: flex;
+  align-items: center;
+}
+
 .playerr.playing:before {
-  content: '...';
+  content: '...playing';
   color: white;
-  font-size: 40px;
+  font-size: 20px;
   position: absolute;
   background-color: #76daff;
-  display: inline-block;
+  display:block;
   line-height: 0;
   height: 20px;
-  padding: 5px 10px;
-  border-radius: 5px;
+  padding: 10px 10px 2px 2px;
+  border-radius: 6px;
   z-index: 100;
 }
 
-.playerr.player-1 {
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-}
 
-.playerr.player-2 {
+.playerr.player-1 {
   bottom: 0;
   left: 50%;
   transform: translateX(-50%) translateY(50%) rotate(180deg);
+  ;
 }
 
-.playerr.player-2 .name {
+.playerr.player-1 .name {
   transform: rotate(180deg);
 }
 
-.playerr.player-2 .bank-value {
+.playerr.player-1 .bank-value {
   transform: rotate(180deg);
 }
 
-.playerr.player-2 .mise-value {
+.playerr.player-1 .mise-value {
   transform: rotate(180deg);
+}
+
+.playerr.player-1 .avatar {
+  width: 100px;
+  height: 100px;
+  /* change this to photo */
+  background-color: blue; 
+  border-radius: 100%;
+  position: relative;
+  box-shadow: 2px 10px 0px rgba(0, 0, 0, 0.4);
+}
+.playerr.player-1 .card {
+  margin: 4px;
+  width: 80px;
+  height: 90px;
+  border: 2px solid #000;
+  border-radius: 3px;
+  box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.5);
+}
+
+.playerr.player-2 {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
 }
 
 .playerr.player-3 {
@@ -339,16 +425,16 @@
 
   .card2-place {
     /* Adjust styles for smaller screens here */
-    height: 140px;
-    width: 70px;
+    height: 65px;
+    width: 55px;
     position: absolute;
     border-radius: 5px;
-    padding: 12px;
+    padding: 2px;
     top: 50%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
   }
-
+  
   .players2 {
     flex-direction: column; /* Display players vertically */
   }
@@ -402,6 +488,24 @@
     border-radius: 3px;
     box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.5);
   }
+  
+  .playerr.player-1 .card {
+    margin: 4px;
+    width: 40px;
+    height: 50px;
+    border: 2px solid #000;
+    border-radius: 3px;
+    box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.5);
+  }
+
+/*   
+.instructionBox {
+  border:#76daff;
+  border-style: solid;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+} */
   
   /* btn css phone */
   .simpleBtn {
