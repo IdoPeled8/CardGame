@@ -13,8 +13,8 @@ const GameInfo = () => {
         {" "}
         {winnerPlayer != undefined && winnerPlayer.name + " is the winner"}
       </div>
-      <div className="someData">Turn: {playerTurn.name}</div>
-      <div className="someData">{uiMessage}</div>
+      <div className="turnData">Turn: {playerTurn.name}</div>
+      <div className="infoBox">{uiMessage}</div>
       </div>
   );
 };
